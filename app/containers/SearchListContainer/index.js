@@ -102,11 +102,10 @@ SearchListContainer.propTypes = {
   dispatchClearList: PropTypes.func
 };
 
-// SearchListContainer.defaultProps = {
-//   maxwidth: 500,
-//   dispatchSearchList: () => {},
-//   dispatchClearList: () => {}
-// };
+SearchListContainer.defaultProps = {
+  dispatchSearchList: () => {},
+  dispatchClearList: () => {}
+};
 
 const mapStateToProps = createStructuredSelector({
   somePayLoad: selectSomePayLoad()
