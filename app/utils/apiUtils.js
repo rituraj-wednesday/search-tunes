@@ -5,6 +5,7 @@ import { mapKeysDeep } from './index';
 
 const API_TYPES = {
   GITHUB: 'github',
+  ITUNES: 'itunes',
   DEFAULT: 'default'
 };
 const apiClients = {
@@ -39,6 +40,14 @@ export const generateApiClient = (type = 'github') => {
     apiClients[type] = createApiClientWithTransForm(process.env.GITHUB_URL);
     return apiClients[type];
   }
+
+  if (type === API_TYPES.ITUNES) {
+    // store this value for time to come
+    // eslint-disable-next-line immutable/no-mutation
+    apiClients[type] = createApiClientWithBasicGet(process.env.ITUNES_URL);
+    return apiClients[type];
+  }
+
   // store this value for time to come
   // eslint-disable-next-line immutable/no-mutation
   apiClients.default = createApiClientWithTransForm(process.env.GITHUB_URL);
@@ -80,4 +89,10 @@ export const createApiClientWithTransForm = (baseURL) => {
     return request;
   });
   return api;
+};
+
+export const createApiClientWithBasicGet = (baseURL) => {
+  return create({
+    baseURL
+  });
 };
