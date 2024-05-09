@@ -4,8 +4,9 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { debounce, isEmpty } from 'lodash';
 import styled from '@emotion/styled';
 import { Card, IconButton, InputAdornment, OutlinedInput, CardHeader, Divider } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
@@ -50,9 +51,25 @@ const StyledOutlinedInput = styled(OutlinedInput)`
  *
  * @param {Object} props - The component props.
  * @param {string} props.maxwidth - The maximum width of the component.
+ * @param {Function} props.dispatchSearchList - Dispatch Action for Search Term change.
+ * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
  * @returns {JSX.Element} The HomeContainer component.
  */
-export function SearchListContainer({ maxwidth }) {
+export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList }) {
+  const searchTunes = useCallback((term) => {
+    dispatchSearchList(term);
+  });
+
+  const handleOnChange = useCallback((term) => {
+    if (!isEmpty(term)) {
+      searchTunes(term);
+    } else {
+      dispatchClearList();
+    }
+  });
+
+  const debouncedHandleOnChange = useCallback(() => debounce(handleOnChange, 200));
+
   return (
     <div>
       <CustomCard maxwidth={maxwidth}>
@@ -61,8 +78,7 @@ export function SearchListContainer({ maxwidth }) {
         <T marginBottom={10} id="search_song_detail" />
         <StyledOutlinedInput
           inputProps={{ 'data-testid': 'search-bar' }}
-          // onChange={(event) => debouncedHandleOnChange(event.target.value)}
-          onChange={() => {}}
+          onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
           defaultValue={''}
           placeholder={translate('tunes_search_placeholder')}
@@ -81,8 +97,16 @@ export function SearchListContainer({ maxwidth }) {
 
 SearchListContainer.propTypes = {
   somePayLoad: PropTypes.any,
-  maxwidth: PropTypes.number
+  maxwidth: PropTypes.number,
+  dispatchSearchList: PropTypes.func,
+  dispatchClearList: PropTypes.func
 };
+
+// SearchListContainer.defaultProps = {
+//   maxwidth: 500,
+//   dispatchSearchList: () => {},
+//   dispatchClearList: () => {}
+// };
 
 const mapStateToProps = createStructuredSelector({
   somePayLoad: selectSomePayLoad()
