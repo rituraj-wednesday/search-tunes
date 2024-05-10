@@ -15,7 +15,6 @@ import T from '@components/T';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import { selectSomePayLoad } from './selectors';
 import saga from './saga';
 import { translate } from '@app/utils';
 
@@ -108,7 +107,7 @@ SearchListContainer.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  somePayLoad: selectSomePayLoad()
+  // somePayLoad: selectSomePayLoad()
 });
 
 // eslint-disable-next-line require-jsdoc
