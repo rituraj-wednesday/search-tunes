@@ -21,6 +21,7 @@ import { selectError, selectLoading, selectTerm, selectTrackList } from './selec
 import { searchListContainerCreators } from './reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
+import { TuneTile } from '@app/components/TuneTile/index';
 
 const CustomCard = styled(Card)`
   && {
@@ -48,16 +49,9 @@ const StyledOutlinedInput = styled(OutlinedInput)`
 const Container = styled.div`
   && {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Each column is a minimum of 60px */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Each column is a minimum of 60px */
     grid-gap: 8px;
   }
-`;
-
-const TrackTile = styled.div`
-  border-radius: 4px;
-  border: 3px solid black;
-  overflow: hidden;
-  height: 36px;
 `;
 
 const renderTrackList = (trackList, loading) => {
@@ -66,11 +60,7 @@ const renderTrackList = (trackList, loading) => {
   return (
     <If condition={resultCount && !loading}>
       <CustomCard>
-        <For
-          of={results}
-          ParentComponent={Container}
-          renderItem={(track) => <TrackTile>{track.trackName}</TrackTile>}
-        />
+        <For of={results} ParentComponent={Container} renderItem={(track) => <TuneTile track={track} />} />
       </CustomCard>
     </If>
   );
@@ -88,14 +78,14 @@ const renderTrackList = (trackList, loading) => {
  * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
  * @returns {JSX.Element} The SearchList component.
  */
-export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList }) {
-  const searchTunes = (term) => {
-    dispatchSearchList(term);
+export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term }) {
+  const searchTunes = (newTerm) => {
+    dispatchSearchList(newTerm);
   };
 
-  const handleOnChange = (term) => {
-    if (!isEmpty(term)) {
-      searchTunes(term);
+  const handleOnChange = (newTerm) => {
+    if (!isEmpty(newTerm)) {
+      searchTunes(newTerm);
     } else {
       dispatchClearList();
     }
@@ -113,11 +103,16 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           inputProps={{ 'data-testid': 'search-bar' }}
           onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
-          defaultValue={''}
+          defaultValue={term}
           placeholder={translate('tunes_search_placeholder')}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton data-testid="search-icon" aria-label="search tunes" type="button" onClick={() => {}}>
+              <IconButton
+                data-testid="search-icon"
+                aria-label="search tunes"
+                type="button"
+                onClick={() => searchTunes(term)}
+              >
                 <SearchIcon />
               </IconButton>
             </InputAdornment>
@@ -137,7 +132,8 @@ SearchListContainer.propTypes = {
   trackList: PropTypes.shape({
     resultCount: PropTypes.number,
     results: PropTypes.array
-  })
+  }),
+  term: PropTypes.string
 };
 
 SearchListContainer.defaultProps = {
