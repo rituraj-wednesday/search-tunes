@@ -1,9 +1,18 @@
-import { selectSearchListContainer, selectSomePayLoad } from '../selectors';
+import {
+  selectSearchListContainer,
+  selectTerm,
+  selectLoading,
+  selectError,
+  selectTrackList,
+} from '../selectors';
 
 describe('SearchListContainer selector tests', () => {
   const mockedState = {
     searchListContainer: {
-      somePayLoad: 'W.S'
+      term: 'Jack Johnson',
+      loading: false,
+      error: null,
+      trackList: [],
     }
   };
 
@@ -12,8 +21,23 @@ describe('SearchListContainer selector tests', () => {
     expect(searchListContainerSelector(mockedState)).toEqual(mockedState.searchListContainer);
   });
 
-  it('should select the somePayLoad state', () => {
-    const somePayLoadSelector = selectSomePayLoad();
-    expect(somePayLoadSelector(mockedState)).toEqual(mockedState.searchListContainer.somePayLoad);
+  // it('should select the term state', () => {
+  //   const selectTermSelector = selectTerm();
+  //   expect(selectTermSelector(mockedState.term)).toEqual(mockedState.term);
+  // });
+
+  // it('should select the loading state', () => {
+  //   const selectLoadingSelector = selectLoading();
+  //   expect(selectLoadingSelector(mockedState.loading)).toEqual(mockedState.loading);
+  // });
+
+  // it('should select the error state', () => {
+  //   const selectErrorSelector = selectError();
+  //   expect(selectErrorSelector(mockedState.error)).toEqual(mockedState.error);
+  // });
+
+  it('should select the trackList state', () => {
+    const selectTrackListSelector = selectTrackList();
+    expect(selectTrackListSelector(mockedState.trackList)).toEqual(mockedState.trackList);
   });
 });

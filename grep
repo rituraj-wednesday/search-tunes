@@ -1,0 +1,11 @@
+yarn run v1.22.22
+$ cross-env NODE_ENV=test jest --coverage --verbose FAIL
+No tests found, exiting with code 1
+Run with `--passWithNoTests` to exit with code 0
+In /Users/admin/Documents/workspace/search-tunes
+  133 files checked.
+  testMatch:  - 0 matches
+  testPathIgnorePatterns: /node_modules/ - 133 matches
+  testRegex: tests/.*\.test\.js$ - 29 matches
+Pattern: FAIL - 0 matches
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

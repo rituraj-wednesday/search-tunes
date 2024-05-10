@@ -5,21 +5,43 @@
  */
 import { produce } from 'immer';
 import { createActions } from 'reduxsauce';
+import get from 'lodash/get';
 
 export const initialState = {
-  somePayLoad: null
+  term: null,
+  error: null,
+  loading: false
 };
 
 export const { Types: searchListContainerTypes, Creators: searchListContainerCreators } = createActions({
-  defaultAction: ['somePayLoad']
+  requestGetSearchedTunes: ['term'],
+  successGEtSearchedTunes: ['data'],
+  failureGetSearchedTunes: ['error'],
+  clearSearchList: []
 });
 
 export const searchListContainerReducer = (state = initialState, action) =>
   produce(state, (draft) => {
-    // eslint-disable-next-line sonarjs/no-small-switch
     switch (action.type) {
-      case searchListContainerTypes.DEFAULT_ACTION:
-        draft.somePayLoad = action.somePayLoad;
+      case searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES:
+        draft.term = action.term;
+        draft.loading = true;
+        break;
+      case searchListContainerTypes.CLEAR_SEARCH_LIST:
+        draft.term = null;
+        draft.error = null;
+        draft.trackList = [];
+        draft.loading = null;
+        break;
+      case searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNESS:
+        draft.trackList = action.data;
+        draft.error = null;
+        draft.loading = false;
+        break;
+      case searchListContainerTypes.FAILURE_GET_SEARCHED_TUNES:
+        draft.error = get(action.error, 'message', 'something_went_wrong');
+        draft.trackList = [];
+        draft.loading = false;
         break;
       default:
     }
