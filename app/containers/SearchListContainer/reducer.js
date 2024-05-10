@@ -30,8 +30,8 @@ export const searchListContainerReducer = (state = initialState, action) =>
       case searchListContainerTypes.CLEAR_SEARCH_LIST:
         draft.term = null;
         draft.error = null;
-        draft.trackList = [];
-        draft.loading = null;
+        draft.trackList = null;
+        draft.loading = false;
         break;
       case searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNESS:
         draft.trackList = action.data;
@@ -40,10 +40,9 @@ export const searchListContainerReducer = (state = initialState, action) =>
         break;
       case searchListContainerTypes.FAILURE_GET_SEARCHED_TUNES:
         draft.error = get(action.error, 'message', 'something_went_wrong');
-        draft.trackList = [];
+        draft.trackList = null;
         draft.loading = false;
         break;
-      default:
     }
   });
 
