@@ -44,7 +44,7 @@ export const generateApiClient = (type = 'github') => {
   if (type === API_TYPES.ITUNES) {
     // store this value for time to come
     // eslint-disable-next-line immutable/no-mutation
-    apiClients[type] = createApiClientWithBasicGet(process.env.ITUNES_URL);
+    apiClients[type] = createApiClientWithTransForm(process.env.ITUNES_URL);
     return apiClients[type];
   }
 
@@ -89,10 +89,4 @@ export const createApiClientWithTransForm = (baseURL) => {
     return request;
   });
   return api;
-};
-
-export const createApiClientWithBasicGet = (baseURL) => {
-  return create({
-    baseURL
-  });
 };

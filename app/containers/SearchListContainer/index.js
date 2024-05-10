@@ -4,9 +4,9 @@
  *
  */
 
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { debounce, isEmpty } from 'lodash';
+import { debounce, isEmpty, get } from 'lodash';
 import styled from '@emotion/styled';
 import { Card, IconButton, InputAdornment, OutlinedInput, CardHeader, Divider } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
@@ -17,6 +17,10 @@ import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
 import saga from './saga';
 import { translate } from '@app/utils';
+import { selectError, selectLoading, selectTerm, selectTrackList } from './selectors';
+import { searchListContainerCreators } from './reducer';
+import { If } from '@app/components/If';
+import { For } from '@app/components/For/index';
 
 const CustomCard = styled(Card)`
   && {
@@ -41,6 +45,36 @@ const StyledOutlinedInput = styled(OutlinedInput)`
     top: 0;
   }
 `;
+const Container = styled.div`
+  && {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Each column is a minimum of 60px */
+    grid-gap: 8px;
+  }
+`;
+
+const TrackTile = styled.div`
+  border-radius: 4px;
+  border: 3px solid black;
+  overflow: hidden;
+  height: 36px;
+`;
+
+const renderTrackList = (trackList, loading) => {
+  const resultCount = get(trackList, 'resultCount', 0);
+  const results = get(trackList, 'results', []);
+  return (
+    <If condition={resultCount && !loading}>
+      <CustomCard>
+        <For
+          of={results}
+          ParentComponent={Container}
+          renderItem={(track) => <TrackTile>{track.trackName}</TrackTile>}
+        />
+      </CustomCard>
+    </If>
+  );
+};
 
 /**
  * SearchListContainer component that handles the logic for searching and displaying tunes.
@@ -54,20 +88,20 @@ const StyledOutlinedInput = styled(OutlinedInput)`
  * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
  * @returns {JSX.Element} The SearchList component.
  */
-export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList }) {
-  const searchTunes = useCallback((term) => {
+export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList }) {
+  const searchTunes = (term) => {
     dispatchSearchList(term);
-  });
+  };
 
-  const handleOnChange = useCallback((term) => {
+  const handleOnChange = (term) => {
     if (!isEmpty(term)) {
       searchTunes(term);
     } else {
       dispatchClearList();
     }
-  });
+  };
 
-  const debouncedHandleOnChange = useCallback(() => debounce(handleOnChange, 200));
+  const debouncedHandleOnChange = debounce(handleOnChange, 700);
 
   return (
     <div>
@@ -90,6 +124,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           }
         />
       </CustomCard>
+      {renderTrackList(trackList)}
     </div>
   );
 }
@@ -98,22 +133,31 @@ SearchListContainer.propTypes = {
   somePayLoad: PropTypes.any,
   maxwidth: PropTypes.number,
   dispatchSearchList: PropTypes.func,
-  dispatchClearList: PropTypes.func
+  dispatchClearList: PropTypes.func,
+  trackList: PropTypes.shape({
+    resultCount: PropTypes.number,
+    results: PropTypes.array
+  })
 };
 
 SearchListContainer.defaultProps = {
-  dispatchSearchList: () => {},
-  dispatchClearList: () => {}
+  maxWidth: 500,
+  padding: 20
 };
 
 const mapStateToProps = createStructuredSelector({
-  // somePayLoad: selectSomePayLoad()
+  term: selectTerm(),
+  loading: selectLoading(),
+  trackList: selectTrackList(),
+  error: selectError()
 });
 
 // eslint-disable-next-line require-jsdoc
 function mapDispatchToProps(dispatch) {
+  const { requestGetSearchedTunes, clearSearchList } = searchListContainerCreators;
   return {
-    dispatch
+    dispatchSearchList: (term) => dispatch(requestGetSearchedTunes(term)),
+    dispatchClearList: () => dispatch(clearSearchList())
   };
 }
 
