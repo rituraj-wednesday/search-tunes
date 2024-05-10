@@ -52,7 +52,7 @@ const StyledOutlinedInput = styled(OutlinedInput)`
  * @param {string} props.maxwidth - The maximum width of the component.
  * @param {Function} props.dispatchSearchList - Dispatch Action for Search Term change.
  * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
- * @returns {JSX.Element} The HomeContainer component.
+ * @returns {JSX.Element} The SearchList component.
  */
 export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList }) {
   const searchTunes = useCallback((term) => {
