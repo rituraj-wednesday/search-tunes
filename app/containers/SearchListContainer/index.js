@@ -21,7 +21,7 @@ import { selectError, selectLoading, selectTerm, selectTrackList } from './selec
 import { searchListContainerCreators } from './reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
-import { TuneTile } from '@app/components/TuneTile/index';
+import { Track } from '@app/components/Track/index';
 
 const CustomCard = styled(Card)`
   && {
@@ -60,7 +60,7 @@ const renderTrackList = (trackList, loading) => {
   return (
     <If condition={resultCount && !loading}>
       <CustomCard>
-        <For of={results} ParentComponent={Container} renderItem={(track) => <TuneTile track={track} />} />
+        <For of={results} ParentComponent={Container} renderItem={(track) => <Track track={track} />} />
       </CustomCard>
     </If>
   );
