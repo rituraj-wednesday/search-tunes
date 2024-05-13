@@ -10,6 +10,15 @@ import styled from '@emotion/styled';
 import IconButton from '@mui/material/IconButton';
 import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
 
+const TrackArtHoverLayer = styled.div`
+  height: 100%;
+  width: 100%;
+  background: #000000b0;
+  position: relative;
+  top: 200px;
+  transition: top 200ms ease;
+`;
+
 const TrackWrapper = styled.div`
   border-radius: 4px;
   border: 3px solid #a88d8d;
@@ -18,6 +27,12 @@ const TrackWrapper = styled.div`
   width: 200px;
   background-image: url(${(props) => props.trackArtURL});
   background-size: cover;
+
+  :hover {
+    ${TrackArtHoverLayer} {
+      top: 0;
+    }
+  }
 `;
 
 /**
@@ -32,9 +47,11 @@ const TrackWrapper = styled.div`
 export function TuneTile({ track }) {
   return (
     <TrackWrapper trackArtURL={track.artworkUrl100} aria-label={track.trackName} data-testid="tune-tile">
-      <IconButton>
-        <PlayCircleFilledRoundedIcon sx={{ color: 'black' }} />
-      </IconButton>
+      <TrackArtHoverLayer>
+        <IconButton>
+          <PlayCircleFilledRoundedIcon sx={{ color: 'black' }} />
+        </IconButton>
+      </TrackArtHoverLayer>
     </TrackWrapper>
   );
 }
