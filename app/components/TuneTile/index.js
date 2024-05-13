@@ -46,7 +46,7 @@ const TrackWrapper = styled.div`
  */
 export function TuneTile({ track }) {
   return (
-    <TrackWrapper trackArtURL={track.artworkUrl100} aria-label={track.trackName} data-testid="tune-tile">
+    <TrackWrapper trackArtURL={track.artworkUrl100} aria-label={track.trackName}>
       <TrackArtHoverLayer>
         <IconButton>
           <PlayCircleFilledRoundedIcon sx={{ color: 'black' }} />
