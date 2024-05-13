@@ -15,7 +15,7 @@ export const initialState = {
 
 export const { Types: searchListContainerTypes, Creators: searchListContainerCreators } = createActions({
   requestGetSearchedTunes: ['term'],
-  successGEtSearchedTunes: ['data'],
+  successGetSearchedTunes: ['data'],
   failureGetSearchedTunes: ['error'],
   clearSearchList: []
 });
