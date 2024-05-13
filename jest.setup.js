@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.test' });
 
 jest.mock('react-router-dom', () => {
   const originalModule = jest.requireActual('react-router-dom');
