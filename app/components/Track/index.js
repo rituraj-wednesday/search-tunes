@@ -74,9 +74,19 @@ const TitleWrapper = styled.div`
 export function Track({ track, currentTrackID }) {
   const { trackId } = track;
   const isPlaying = currentTrackID === trackId;
+
   useEffect(() => {
     audioController.registerAudio(track);
   }, [track.trackId]);
+
+  const onPlayPauseClick = () => {
+    if (!isPlaying) {
+      audioController.play(track);
+    } else {
+      audioController.stop();
+    }
+  };
+
   return (
     <TrackWrapper
       title={track.trackName}
@@ -94,9 +104,7 @@ export function Track({ track, currentTrackID }) {
                 height: '60px',
                 width: '60px'
               }}
-              onClick={() => {
-                audioController.play(track);
-              }}
+              onClick={onPlayPauseClick}
             >
               <If
                 condition={!isPlaying}
