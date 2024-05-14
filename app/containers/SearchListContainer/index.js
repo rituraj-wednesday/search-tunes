@@ -23,6 +23,7 @@ import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
 import { Track } from '@app/components/Track/index';
 import audioController from '@app/utils/audioController';
+import Loading from '@app/components/Loading';
 
 const CustomCard = styled(Card)`
   && {
@@ -35,6 +36,12 @@ const CustomCard = styled(Card)`
 const CustomCardHeader = styled(CardHeader)`
   && {
     padding: 0;
+  }
+`;
+
+const LoadingCard = styled(CustomCard)`
+  && {
+    text-align: center;
   }
 `;
 
@@ -82,7 +89,7 @@ const renderTrackList = (trackList, loading, currentTrackID) => {
  * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
  * @returns {JSX.Element} The SearchList component.
  */
-export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term }) {
+export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term, loading }) {
   const [currentTrackID, setCurrentTrackID] = useState(null);
   const [firstRender, setFirstRender] = useState(true);
 
@@ -133,7 +140,16 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           }
         />
       </CustomCard>
-      {renderTrackList(trackList, false, currentTrackID)}
+      <If
+        condition={!loading}
+        otherwise={
+          <LoadingCard>
+            <Loading height="100px" width="100px" />
+          </LoadingCard>
+        }
+      >
+        {renderTrackList(trackList, false, currentTrackID)}
+      </If>
     </div>
   );
 }
@@ -147,7 +163,8 @@ SearchListContainer.propTypes = {
     resultCount: PropTypes.number,
     results: PropTypes.array
   }),
-  term: PropTypes.string
+  term: PropTypes.string,
+  loading: PropTypes.bool
 };
 
 SearchListContainer.defaultProps = {
