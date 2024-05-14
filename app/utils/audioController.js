@@ -8,9 +8,17 @@ class AudioController {
     this.audioData = {};
     this.currentlyPlaying = null;
     this.loading = Promise.resolve();
+    this.onAudioChangeHandlers = [];
   }
 
-  registerAudio = async (trackId, audioUrl, otherData) => {
+  registerAudioChangeHandlers = (callback) => {
+    this.onAudioChangeHandlers.push(callback);
+    return this.onAudioChangeHandlers.length - 1;
+  };
+
+  registerAudio = async (track) => {
+    const { trackId, previewUrl: audioUrl } = track;
+
     if (this.audioData[trackId]) {
       return;
     }
@@ -29,7 +37,7 @@ class AudioController {
     }
     this.audioData[trackId] = {
       audio,
-      otherData
+      otherData: track
     };
 
     this.loading = new Promise((resolve) => {
@@ -47,6 +55,7 @@ class AudioController {
     if (audioObj) {
       audioObj.audio.play();
       this.currentlyPlaying = trackId;
+      this.onPlayingAudioChange();
     } else {
       const { previewUrl } = track;
       await this.registerAudio(trackId, previewUrl, track);
@@ -55,11 +64,20 @@ class AudioController {
       if (audioObj) {
         audioObj.audio.play();
         this.currentlyPlaying = trackId;
+        this.onPlayingAudioChange();
       } else {
         console.error('Audio not found for trackId:', trackId);
       }
     }
   }
+
+  onPlayingAudioChange = () => {
+    for (const current of this.onAudioChangeHandlers) {
+      if (typeof current === 'function') {
+        current(this.currentlyPlaying);
+      }
+    }
+  };
 
   stop() {
     if (this.currentlyPlaying !== null) {
@@ -67,6 +85,7 @@ class AudioController {
       audioObj.audio.pause();
       audioObj.audio.currentTime = 0;
       this.currentlyPlaying = null;
+      this.onPlayingAudioChange();
     }
   }
 }

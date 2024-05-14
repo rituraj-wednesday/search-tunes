@@ -19,9 +19,8 @@ const TrackArtHoverLayer = styled.div`
   width: 100%;
   background: #000000b0;
   position: relative;
-  top: 200px;
+  top: ${(props) => (props.isPlaying ? '0px' : 'calc(100% - 46px)')};
   transition: top 200ms ease;
-  display: flex;
 `;
 
 const TrackWrapper = styled.div`
@@ -32,7 +31,6 @@ const TrackWrapper = styled.div`
   width: 200px;
   background-image: url(${(props) => props.trackArtURL});
   background-size: cover;
-
   :hover {
     ${TrackArtHoverLayer} {
       top: 0;
@@ -42,11 +40,27 @@ const TrackWrapper = styled.div`
 
 const InfoIconWrapper = styled.div`
   width: 50%;
-  height: 100%;
+  height: calc(100% - 48px);
   display: flex;
 `;
 
-const isPlaying = false;
+const ButtonFlex = styled.div`
+  display: flex;
+  height: 100%;
+`;
+
+const TitleWrapper = styled.div`
+  color: white;
+  font-size: 24px;
+  height: 46px;
+  font-weight: 500;
+  padding: 6px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+`;
 
 /**
  * Track component displays track as a tile. Also displays Preview and Info button on hover.
@@ -57,43 +71,53 @@ const isPlaying = false;
  * @param {string} props.track - Track data.
  * @returns {JSX.Element} The Track component.
  */
-export function Track({ track }) {
+export function Track({ track, currentTrackID }) {
+  const { trackId } = track;
+  const isPlaying = currentTrackID === trackId;
   useEffect(() => {
-    audioController.registerAudio(track.trackId, track.previewUrl, track);
+    audioController.registerAudio(track);
   }, [track.trackId]);
   return (
-    <TrackWrapper trackArtURL={track.artworkUrl100} aria-label={track.trackName} data-testid="tune-tile">
-      <TrackArtHoverLayer>
-        <InfoIconWrapper>
-          <IconButton
-            sx={{
-              margin: 'auto 8px auto auto',
-              height: '60px',
-              width: '60px'
-            }}
-            onClick={() => {
-              audioController.play(track);
-            }}
-          >
-            <If
-              condition={!isPlaying}
-              otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />}
+    <TrackWrapper
+      title={track.trackName}
+      trackArtURL={track.artworkUrl100}
+      aria-label={track.trackName}
+      data-testid="tune-tile"
+    >
+      <TrackArtHoverLayer isPlaying={isPlaying}>
+        <TitleWrapper>{track.trackName}</TitleWrapper>
+        <ButtonFlex>
+          <InfoIconWrapper>
+            <IconButton
+              sx={{
+                margin: 'calc(30% - 4px) 8px auto auto',
+                height: '60px',
+                width: '60px'
+              }}
+              onClick={() => {
+                audioController.play(track);
+              }}
             >
-              <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
-            </If>
-          </IconButton>
-        </InfoIconWrapper>
-        <InfoIconWrapper>
-          <IconButton
-            sx={{
-              margin: 'auto auto auto 8px',
-              height: '60px',
-              width: '60px'
-            }}
-          >
-            <InfoRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
-          </IconButton>
-        </InfoIconWrapper>
+              <If
+                condition={!isPlaying}
+                otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />}
+              >
+                <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+              </If>
+            </IconButton>
+          </InfoIconWrapper>
+          <InfoIconWrapper>
+            <IconButton
+              sx={{
+                margin: 'calc(30% - 4px) auto auto 8px',
+                height: '60px',
+                width: '60px'
+              }}
+            >
+              <InfoRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+            </IconButton>
+          </InfoIconWrapper>
+        </ButtonFlex>
       </TrackArtHoverLayer>
     </TrackWrapper>
   );
@@ -105,7 +129,8 @@ Track.propTypes = {
     trackName: PropTypes.string,
     trackId: PropTypes.number,
     previewUrl: PropTypes.string
-  })
+  }),
+  currentTrackID: PropTypes.number
 };
 
 Track.defaultProps = {

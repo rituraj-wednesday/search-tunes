@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { debounce, isEmpty, get } from 'lodash';
 import styled from '@emotion/styled';
@@ -22,6 +22,7 @@ import { searchListContainerCreators } from './reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
 import { Track } from '@app/components/Track/index';
+import audioController from '@app/utils/audioController';
 
 const CustomCard = styled(Card)`
   && {
@@ -53,13 +54,17 @@ const Container = styled.div`
   }
 `;
 
-const renderTrackList = (trackList, loading) => {
+const renderTrackList = (trackList, loading, currentTrackID) => {
   const resultCount = get(trackList, 'resultCount', 0);
   const results = get(trackList, 'results', []);
   return (
     <If condition={resultCount && !loading}>
       <CustomCard>
-        <For of={results} ParentComponent={Container} renderItem={(track) => <Track track={track} />} />
+        <For
+          of={results}
+          ParentComponent={Container}
+          renderItem={(track) => <Track track={track} currentTrackID={currentTrackID} />}
+        />
       </CustomCard>
     </If>
   );
@@ -78,6 +83,16 @@ const renderTrackList = (trackList, loading) => {
  * @returns {JSX.Element} The SearchList component.
  */
 export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term }) {
+  const [currentTrackID, setCurrentTrackID] = useState(null);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (firstRender) {
+      audioController.registerAudioChangeHandlers(setCurrentTrackID);
+      setFirstRender(true);
+    }
+  }, []);
+
   const searchTunes = (newTerm) => {
     dispatchSearchList(newTerm);
   };
@@ -118,7 +133,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           }
         />
       </CustomCard>
-      {renderTrackList(trackList)}
+      {renderTrackList(trackList, false, currentTrackID)}
     </div>
   );
 }
