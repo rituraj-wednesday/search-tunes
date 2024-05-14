@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,7 @@ import PauseCircleFilledRoundedIcon from '@mui/icons-material/PauseCircleFilledR
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { If } from '../If/index';
 import audioController from '@app/utils/audioController';
+import Loading from '../Loading/index';
 
 const TrackArtHoverLayer = styled.div`
   height: 100%;
@@ -62,6 +63,19 @@ const TitleWrapper = styled.div`
   text-align: center;
 `;
 
+const LoadingSVGWrapper = styled.div`
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: white;
+`;
+
+const LoadingIcon = () => (
+  <LoadingSVGWrapper>
+    <Loading height="50px" width="50px" />
+  </LoadingSVGWrapper>
+);
+
 /**
  * Track component displays track as a tile. Also displays Preview and Info button on hover.
  *
@@ -74,6 +88,7 @@ const TitleWrapper = styled.div`
 export function Track({ track, currentTrackID }) {
   const { trackId } = track;
   const isPlaying = currentTrackID === trackId;
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     audioController.registerAudio(track);
@@ -81,7 +96,7 @@ export function Track({ track, currentTrackID }) {
 
   const onPlayPauseClick = () => {
     if (!isPlaying) {
-      audioController.play(track);
+      audioController.play(track, setLoading);
     } else {
       audioController.stop();
     }
@@ -106,11 +121,13 @@ export function Track({ track, currentTrackID }) {
               }}
               onClick={onPlayPauseClick}
             >
-              <If
-                condition={!isPlaying}
-                otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />}
-              >
-                <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+              <If condition={!isLoading} otherwise={<LoadingIcon />}>
+                <If
+                  condition={!isPlaying}
+                  otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />}
+                >
+                  <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+                </If>
               </If>
             </IconButton>
           </InfoIconWrapper>

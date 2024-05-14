@@ -5,23 +5,23 @@ exports[`<Track /> should render and match the snapshot 1`] = `
   <div>
     <div
       aria-label="hello"
-      class="css-maqvjk e1b9j16n3"
+      class="css-gjhi0g e1b9j16n4"
       data-testid="tune-tile"
       title="hello"
     >
       <div
-        class="css-1jexdpe e1b9j16n4"
+        class="css-1jexdpe e1b9j16n5"
       >
         <div
-          class="css-1ezvobt e1b9j16n0"
+          class="css-1ezvobt e1b9j16n1"
         >
           hello
         </div>
         <div
-          class="css-15currb e1b9j16n1"
+          class="css-15currb e1b9j16n2"
         >
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-17sc1nx e1b9j16n3"
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4ua1wp-MuiButtonBase-root-MuiIconButton-root"
@@ -45,7 +45,7 @@ exports[`<Track /> should render and match the snapshot 1`] = `
             </button>
           </div>
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-17sc1nx e1b9j16n3"
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1wytf1x-MuiButtonBase-root-MuiIconButton-root"
