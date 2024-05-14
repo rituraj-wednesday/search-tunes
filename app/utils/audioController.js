@@ -1,39 +1,66 @@
+/* eslint-disable no-invalid-this */
 /* eslint-disable immutable/no-this */
 /* eslint-disable immutable/no-mutation */
 class AudioController {
   constructor() {
-    this.audioData = {}; // Object to store audio data
-    this.currentlyPlaying = null; // Keep track of currently playing audio
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    this.audioContext = new AudioContext();
+    this.audioData = {};
+    this.currentlyPlaying = null;
+    this.loading = Promise.resolve();
   }
 
-  // Function to register audio
-  registerAudio(trackId, audioUrl, otherData) {
-    const audio = new Audio(audioUrl);
+  registerAudio = async (trackId, audioUrl, otherData) => {
+    if (this.audioData[trackId]) {
+      return;
+    }
+    await this.loading;
+
+    const audio = new Audio();
+
+    const response = await fetch(audioUrl);
+
+    if (response.status === 206) {
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+      audio.src = URL.createObjectURL(new Blob([audioBuffer], { type: 'audio/mpeg' }));
+    } else {
+      audio.src = audioUrl;
+    }
     this.audioData[trackId] = {
       audio,
       otherData
     };
-    audio.preload = 'auto'; // Preload the audio
-  }
 
-  // Function to play audio by trackId
-  play(trackId) {
-    // If there is an audio currently playing, stop it
+    this.loading = new Promise((resolve) => {
+      audio.addEventListener('loadeddata', resolve);
+    });
+  };
+
+  async play(track) {
+    const { trackId } = track;
     if (this.currentlyPlaying !== null) {
       this.stop();
     }
 
-    // Play the audio corresponding to the trackId
-    const audioObj = this.audioData[trackId];
+    let audioObj = this.audioData[trackId];
     if (audioObj) {
       audioObj.audio.play();
       this.currentlyPlaying = trackId;
     } else {
-      console.error('Audio not found for trackId:', trackId);
+      const { previewUrl } = track;
+      await this.registerAudio(trackId, previewUrl, track);
+      audioObj = this.audioData[trackId];
+
+      if (audioObj) {
+        audioObj.audio.play();
+        this.currentlyPlaying = trackId;
+      } else {
+        console.error('Audio not found for trackId:', trackId);
+      }
     }
   }
 
-  // Function to stop currently playing audio
   stop() {
     if (this.currentlyPlaying !== null) {
       const audioObj = this.audioData[this.currentlyPlaying];

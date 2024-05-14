@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +12,7 @@ import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRou
 import PauseCircleFilledRoundedIcon from '@mui/icons-material/PauseCircleFilledRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { If } from '../If/index';
+import audioController from '@app/utils/audioController';
 
 const TrackArtHoverLayer = styled.div`
   height: 100%;
@@ -57,6 +58,9 @@ const isPlaying = false;
  * @returns {JSX.Element} The Track component.
  */
 export function Track({ track }) {
+  useEffect(() => {
+    audioController.registerAudio(track.trackId, track.previewUrl, track);
+  }, [track.trackId]);
   return (
     <TrackWrapper trackArtURL={track.artworkUrl100} aria-label={track.trackName} data-testid="tune-tile">
       <TrackArtHoverLayer>
@@ -66,6 +70,9 @@ export function Track({ track }) {
               margin: 'auto 8px auto auto',
               height: '60px',
               width: '60px'
+            }}
+            onClick={() => {
+              audioController.play(track);
             }}
           >
             <If
@@ -95,7 +102,9 @@ export function Track({ track }) {
 Track.propTypes = {
   track: PropTypes.shape({
     artworkUrl100: PropTypes.string,
-    trackName: PropTypes.string
+    trackName: PropTypes.string,
+    trackId: PropTypes.number,
+    previewUrl: PropTypes.string
   })
 };
 
