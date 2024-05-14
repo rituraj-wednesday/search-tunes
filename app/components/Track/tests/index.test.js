@@ -15,8 +15,9 @@ describe('<Track />', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('should contain 1 Track component', () => {
-    const { getAllByTestId } = renderWithIntl(<Track />);
-    expect(getAllByTestId('tune-tile').length).toBe(1);
+  it('should contain 1 TuneTile component', () => {
+    const dummyTrack = { trackName: 'hello', artworkUrl100: 'artWork' };
+    const { getAllByLabelText } = renderWithIntl(<Track  track={dummyTrack}/>);
+    expect(getAllByLabelText(dummyTrack.trackName).length).toBe(1);
   });
 });
