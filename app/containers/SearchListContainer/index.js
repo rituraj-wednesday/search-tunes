@@ -29,7 +29,6 @@ const CustomCard = styled(Card)`
     margin: 1.25rem 0;
     padding: 1rem;
     max-width: ${(props) => props.maxwidth};
-    ${(props) => props.color && `color: ${props.color}`};
   }
 `;
 const CustomCardHeader = styled(CardHeader)`
@@ -89,7 +88,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
   useEffect(() => {
     if (firstRender) {
       audioController.registerAudioChangeHandlers(setCurrentTrackID);
-      setFirstRender(true);
+      setFirstRender(false);
     }
   }, []);
 
@@ -163,7 +162,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 // eslint-disable-next-line require-jsdoc
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   const { requestGetSearchedTunes, clearSearchList } = searchListContainerCreators;
   return {
     dispatchSearchList: (term) => dispatch(requestGetSearchedTunes(term)),

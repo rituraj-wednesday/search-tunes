@@ -8,14 +8,15 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { timeout, renderWithIntl } from '@utils/testUtils';
-import { SearchListContainerTest as SearchListContainer } from '../index';
+import { SearchListContainerTest as SearchListContainer, mapDispatchToProps } from '../index';
 import { translate } from '@app/utils/index';
+import { searchListContainerTypes } from '../reducer';
 
 jest.mock('react-redux', () => {
   return {
     connect: () => (comp) => comp,
   }
-})
+});
 
 describe('<SearchListContainer /> container tests', () => {
 
@@ -64,5 +65,22 @@ describe('<SearchListContainer /> container tests', () => {
     });
     fireEvent.click(getByLabelText(`${translate('searchBar')} ${translate('buttonText')}`));
     expect(mockedDispatchSearchList).toHaveBeenCalled();
+  });
+
+  it('should validate mapDispatchToProps actions', async () => {
+    const dispatchSearchTermSpy = jest.fn();
+    const term = 'John+Jackson';
+    const actions = {
+      dispatchSearchList: { term, type: searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES },
+      dispatchClearList: { type: searchListContainerTypes.CLEAR_SEARCH_LIST }
+    };
+
+    const props = mapDispatchToProps(dispatchSearchTermSpy);
+    props.dispatchSearchList(term);
+    expect(dispatchSearchTermSpy).toHaveBeenCalledWith(actions.dispatchSearchList);
+
+    await timeout(500);
+    props.dispatchClearList();
+    expect(dispatchSearchTermSpy).toHaveBeenCalledWith(actions.dispatchClearList);
   });
 });
