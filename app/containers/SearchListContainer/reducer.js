@@ -33,7 +33,7 @@ export const searchListContainerReducer = (state = initialState, action) =>
         draft.trackList = null;
         draft.loading = false;
         break;
-      case searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNESS:
+      case searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNES:
         draft.trackList = action.data;
         draft.error = null;
         draft.loading = false;

@@ -1,20 +1,31 @@
-import { takeLatest } from 'redux-saga/effects';
-import { searchListContainerTypes } from './reducer';
+import { put, call, takeLatest } from 'redux-saga/effects';
+import { getSearchedList } from '@services/itunesApi';
+import { searchListContainerTypes, searchListContainerCreators } from './reducer';
 
 // Individual exports for testing
-const { DEFAULT_ACTION } = searchListContainerTypes;
+const { REQUEST_GET_SEARCHED_TUNES } = searchListContainerTypes;
+
+const { successGetSearchedTunes, failureGetSearchedTunes } = searchListContainerCreators;
 
 /**
- * registering events
- * @date 04/03/2024 - 12:57:49
+ * A saga that handles fetching GitHub repositories based on a given repository name.
+ * On success, it dispatches a success action with the fetched data.
+ * On failure, it dispatches a failure action with the error data.
  *
- * @export
- * @returns {{}}
+ * @date 01/03/2024 - 14:47:28
+ *
+ * @param {Object} action - The action object containing the repository name.
+ * @yields {Effect} The effect of calling the API, and then either the success or failure action.
  */
-export function* defaultFunction(/* action */) {
-  // console.log('Do something here')
+export function* getSearchedTuneList(action) {
+  const response = yield call(getSearchedList, action.term);
+  const { data, ok } = response;
+  if (ok) {
+    yield put(successGetSearchedTunes(data));
+  } else {
+    yield put(failureGetSearchedTunes(data));
+  }
 }
-
 /**
  * registering events
  * @date 04/03/2024 - 12:57:49
@@ -23,5 +34,5 @@ export function* defaultFunction(/* action */) {
  * @returns {{}}
  */
 export default function* searchListContainerSaga() {
-  yield takeLatest(DEFAULT_ACTION, defaultFunction);
+  yield takeLatest(REQUEST_GET_SEARCHED_TUNES, getSearchedTuneList);
 }

@@ -44,7 +44,7 @@ describe('SearchListContainer reducer tests', () => {
     };
     expect(
       searchListContainerReducer(initialState, {
-        type: searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNESS,
+        type: searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNES,
         data: trackList
       })
     ).toEqual(expectedResult);
