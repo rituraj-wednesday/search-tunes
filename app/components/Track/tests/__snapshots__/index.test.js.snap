@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Track /> should call play audio on Play Button click 1`] = `
+Array [
+  <button
+    aria-label="Play Button"
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4ua1wp-MuiButtonBase-root-MuiIconButton-root"
+    tabindex="0"
+    type="button"
+  >
+    <div
+      class="css-1e6h5g2 e1b9j16n0"
+    >
+      <svg
+        aria-label="loading"
+        height="50px"
+        viewBox="0 0 50 50"
+        width="50px"
+        x="0px"
+        xml:space="preserve"
+        xmlns="http://www.w3.org/2000/svg"
+        y="0px"
+      >
+        <path
+          d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z"
+          fill="#000"
+        >
+          <animatetransform
+            attributeName="transform"
+            attributeType="xml"
+            dur="0.6s"
+            from="0 25 25"
+            repeatCount="indefinite"
+            to="360 25 25"
+            type="rotate"
+          />
+        </path>
+      </svg>
+    </div>
+    <span
+      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>,
+]
+`;
+
 exports[`<Track /> should render and match the snapshot 1`] = `
 <body>
   <div>
