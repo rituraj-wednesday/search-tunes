@@ -16,7 +16,7 @@ class AudioController {
     return this.onAudioChangeHandlers.length - 1;
   };
 
-  registerAudio = async (track) => {
+  registerAudio = (track) => {
     const { trackId, previewUrl: audioUrl } = track;
 
     if (this.audioData[trackId]) {
@@ -45,37 +45,35 @@ class AudioController {
     };
   };
 
-  async loadAudio(audioObj) {
-    try {
-      audioObj.audio.load();
-      audioObj.loaded = true;
-    } catch (e) {
-      console.error('Error in loading audio', e);
-    }
-  }
+  checkAudioIsLoaded = async (audioObj) =>
+    new Promise((resolve) => {
+      audioObj.audio.onloadeddata = () => {
+        resolve(true);
+      };
+    });
 
   async play(track, setLoading) {
+    setLoading(true);
     const { trackId } = track;
     if (this.currentlyPlaying !== null) {
       this.stop();
     }
 
-    const audioObj = this.audioData[trackId];
-    if (audioObj) {
-      if (audioObj.loaded) {
-        audioObj.audio.play();
-        this.currentlyPlaying = trackId;
-        this.onPlayingAudioChange();
-      } else {
-        setLoading(true);
-        await this.loadAudio(audioObj);
-        this.play(track, setLoading);
-        setLoading(false);
-      }
-    } else {
-      await this.registerAudio(track);
-      this.play(track, setLoading);
+    let audioObj = this.audioData[trackId];
+    if (!audioObj) {
+      this.registerAudio(track);
+      audioObj = this.audioData[trackId];
     }
+
+    if (!audioObj.loaded) {
+      audioObj.audio.load();
+      await this.checkAudioIsLoaded(audioObj);
+      audioObj.loaded = true;
+    }
+    audioObj.audio.play();
+    this.currentlyPlaying = trackId;
+    this.onPlayingAudioChange();
+    setLoading(false);
   }
 
   onPlayingAudioChange = () => {
