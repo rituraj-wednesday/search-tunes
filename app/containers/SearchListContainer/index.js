@@ -70,7 +70,11 @@ const renderTrackList = (trackList, loading, currentTrackID) => {
         <For
           of={results}
           ParentComponent={Container}
-          renderItem={(track) => <Track track={track} currentTrackID={currentTrackID} />}
+          renderItem={(track) => (
+            <If condition={track.trackId}>
+              <Track track={track} currentTrackID={currentTrackID} />
+            </If>
+          )}
         />
       </CustomCard>
     </If>
