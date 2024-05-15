@@ -114,7 +114,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
         <Divider sx={{ mb: 1.25 }} light />
         <T marginBottom={10} id="search_song_detail" />
         <StyledOutlinedInput
-          inputProps={{ 'data-testid': 'search-bar' }}
+          inputProps={{ 'aria-label': translate('searchBar') }}
           onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
           defaultValue={term}
@@ -123,7 +123,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
             <InputAdornment position="end">
               <IconButton
                 data-testid="search-icon"
-                aria-label="search tunes"
+                aria-label={`${translate('searchBar')} ${translate('buttonText')}`}
                 type="button"
                 onClick={() => searchTunes(term)}
               >
@@ -175,4 +175,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect, memo, injectSaga({ key: 'searchListContainer', saga }))(SearchListContainer);
 
-export const SearchListContainerTest = compose()(SearchListContainer);
+export const SearchListContainerTest = compose(withConnect)(SearchListContainer);

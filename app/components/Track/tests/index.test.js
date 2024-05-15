@@ -12,21 +12,18 @@ import { translate } from '@app/utils/index';
 
 let mockedPlay;
 let mockedStop;
-let mockedRegisterAudio;
 
 jest.mock('@app/utils/audioController', () => {
   const mockPlay = jest.fn();
   const mockStop = jest.fn();
-  const mockRegisterAudio = jest.fn();
 
   mockedPlay = mockPlay;
   mockedStop = mockStop;
-  mockedRegisterAudio = mockRegisterAudio;
 
   return {
     play: mockPlay,
     stop: mockStop,
-    registerAudio: mockRegisterAudio,
+    registerAudio: jest.fn(),
   };
 });
 

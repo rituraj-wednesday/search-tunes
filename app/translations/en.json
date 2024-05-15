@@ -21,5 +21,6 @@
   "tunes_search_placeholder": "Type song, artist, album, genre, etc.",
   "playText": "Play",
   "pauseText": "Pause",
-  "buttonText": "Button"
+  "buttonText": "Button",
+  "searchBar": "Search Bar"
 }
