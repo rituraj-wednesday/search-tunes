@@ -14,15 +14,12 @@ let mockedPlay;
 let mockedStop;
 
 jest.mock('@app/utils/audioController', () => {
-  const mockPlay = jest.fn();
-  const mockStop = jest.fn();
-
-  mockedPlay = mockPlay;
-  mockedStop = mockStop;
+  mockedPlay = jest.fn();
+  mockedStop = jest.fn();
 
   return {
-    play: mockPlay,
-    stop: mockStop,
+    play: mockedPlay,
+    stop: mockedStop,
     registerAudio: jest.fn(),
   };
 });
