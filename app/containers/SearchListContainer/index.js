@@ -97,7 +97,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
       audioController.registerAudioChangeHandlers(setCurrentTrackID);
       setFirstRender(false);
     }
-  }, []);
+  }, [firstRender]);
 
   const searchTunes = (newTerm) => {
     dispatchSearchList(newTerm);
