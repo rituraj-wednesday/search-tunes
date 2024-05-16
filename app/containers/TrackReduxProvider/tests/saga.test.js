@@ -5,7 +5,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { getSearchedList } from '@services/itunesApi';
 import { apiResponseGenerator } from '@utils/testUtils';
-import searchListContainerSaga, { getSearchedTuneList } from '../saga';
+import { searchListContainerSaga, getSearchedTuneList } from '../saga';
 import { trackReduxTypes } from '../reducer';
 
 describe('SearchListContainer saga tests', () => {

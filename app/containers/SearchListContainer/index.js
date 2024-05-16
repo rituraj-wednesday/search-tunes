@@ -15,7 +15,7 @@ import T from '@components/T';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import saga from '../TrackReduxProvider/saga';
+import { searchListContainerSaga } from '../TrackReduxProvider/saga';
 import { translate } from '@app/utils';
 import { selectError, selectLoading, selectTerm, selectTrackList } from '../TrackReduxProvider/selectors';
 import { trackReduxCreators } from '../TrackReduxProvider/reducer';
@@ -193,6 +193,10 @@ export function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo, injectSaga({ key: 'searchListContainer', saga }))(SearchListContainer);
+export default compose(
+  withConnect,
+  memo,
+  injectSaga({ key: 'trackReduxProvider', saga: searchListContainerSaga })
+)(SearchListContainer);
 
 export const SearchListContainerTest = compose(withConnect)(SearchListContainer);
