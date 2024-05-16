@@ -14,6 +14,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import { If } from '../If/index';
 import audioController from '@app/utils/audioController';
 import Loading from '../Loading/index';
+import { translate } from '@app/utils/index';
 
 const TrackArtHoverLayer = styled.div`
   height: 100%;
@@ -103,12 +104,7 @@ export function Track({ track, currentTrackID }) {
   };
 
   return (
-    <TrackWrapper
-      title={track.trackName}
-      trackArtURL={track.artworkUrl100}
-      aria-label={track.trackName}
-      data-testid="tune-tile"
-    >
+    <TrackWrapper title={track.trackName} trackArtURL={track.artworkUrl100} aria-label={track.trackName}>
       <TrackArtHoverLayer isPlaying={isPlaying}>
         <TitleWrapper>{track.trackName}</TitleWrapper>
         <ButtonFlex>
@@ -119,6 +115,7 @@ export function Track({ track, currentTrackID }) {
                 height: '60px',
                 width: '60px'
               }}
+              aria-label={`${isPlaying ? translate('pauseText') : translate('playText')} ${translate('buttonText')}`}
               onClick={onPlayPauseClick}
             >
               <If condition={!isLoading} otherwise={<LoadingIcon />}>
