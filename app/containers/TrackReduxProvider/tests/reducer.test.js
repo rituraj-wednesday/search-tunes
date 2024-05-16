@@ -1,8 +1,8 @@
-import { searchListContainerReducer, searchListContainerTypes, initialState } from '../reducer';
+import { trackReduxTypes, trackReduxProviderReducer, initialState } from '../reducer';
 
 describe('SearchListContainer reducer tests', () => {
   it('should return the initial state by default', () => {
-    const res = searchListContainerReducer(undefined, {})
+    const res = trackReduxProviderReducer(undefined, {})
     expect(res).toEqual(initialState);
   });
 
@@ -14,8 +14,8 @@ describe('SearchListContainer reducer tests', () => {
       loading: true,
     };
     expect(
-      searchListContainerReducer(initialState, {
-        type: searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES,
+      trackReduxProviderReducer(initialState, {
+        type: trackReduxTypes.REQUEST_GET_SEARCHED_TUNES,
         term: dummyTerm
       })
     ).toEqual(expectedResult);
@@ -27,8 +27,8 @@ describe('SearchListContainer reducer tests', () => {
       trackList: null,
     };
     expect(
-      searchListContainerReducer(initialState, {
-        type: searchListContainerTypes.CLEAR_SEARCH_LIST
+      trackReduxProviderReducer(initialState, {
+        type: trackReduxTypes.CLEAR_SEARCH_LIST
       })
     ).toEqual(expectedResult);
   });
@@ -43,8 +43,8 @@ describe('SearchListContainer reducer tests', () => {
       trackList,
     };
     expect(
-      searchListContainerReducer(initialState, {
-        type: searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNES,
+      trackReduxProviderReducer(initialState, {
+        type: trackReduxTypes.SUCCESS_GET_SEARCHED_TUNES,
         data: trackList
       })
     ).toEqual(expectedResult);
@@ -58,8 +58,8 @@ describe('SearchListContainer reducer tests', () => {
       loading: false,
     };
     expect(
-      searchListContainerReducer(initialState, {
-        type: searchListContainerTypes.FAILURE_GET_SEARCHED_TUNES,
+      trackReduxProviderReducer(initialState, {
+        type: trackReduxTypes.FAILURE_GET_SEARCHED_TUNES,
         error: {
           message: 'something_went_wrong'
         }

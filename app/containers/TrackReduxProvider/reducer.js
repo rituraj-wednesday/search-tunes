@@ -13,32 +13,32 @@ export const initialState = {
   loading: false
 };
 
-export const { Types: searchListContainerTypes, Creators: searchListContainerCreators } = createActions({
+export const { Types: trackReduxTypes, Creators: trackReduxCreators } = createActions({
   requestGetSearchedTunes: ['term'],
   successGetSearchedTunes: ['data'],
   failureGetSearchedTunes: ['error'],
   clearSearchList: []
 });
 
-export const searchListContainerReducer = (state = initialState, action) =>
+export const trackReduxProviderReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES:
+      case trackReduxTypes.REQUEST_GET_SEARCHED_TUNES:
         draft.term = action.term;
         draft.loading = true;
         break;
-      case searchListContainerTypes.CLEAR_SEARCH_LIST:
+      case trackReduxTypes.CLEAR_SEARCH_LIST:
         draft.term = null;
         draft.error = null;
         draft.trackList = null;
         draft.loading = false;
         break;
-      case searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNES:
+      case trackReduxTypes.SUCCESS_GET_SEARCHED_TUNES:
         draft.trackList = action.data;
         draft.error = null;
         draft.loading = false;
         break;
-      case searchListContainerTypes.FAILURE_GET_SEARCHED_TUNES:
+      case trackReduxTypes.FAILURE_GET_SEARCHED_TUNES:
         draft.error = get(action.error, 'message', 'something_went_wrong');
         draft.trackList = null;
         draft.loading = false;
@@ -46,4 +46,4 @@ export const searchListContainerReducer = (state = initialState, action) =>
     }
   });
 
-export default searchListContainerReducer;
+export default trackReduxProviderReducer;

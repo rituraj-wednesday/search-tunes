@@ -10,7 +10,7 @@ import { fireEvent } from '@testing-library/dom';
 import { timeout, renderWithIntl } from '@utils/testUtils';
 import { SearchListContainerTest as SearchListContainer, mapDispatchToProps } from '../index';
 import { translate } from '@app/utils/index';
-import { searchListContainerTypes } from '../reducer';
+import { trackReduxTypes } from '../../TrackReduxProvider/reducer';
 
 jest.mock('react-redux', () => {
   return {
@@ -71,8 +71,8 @@ describe('<SearchListContainer /> container tests', () => {
     const dispatchSearchTermSpy = jest.fn();
     const term = 'John+Jackson';
     const actions = {
-      dispatchSearchList: { term, type: searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES },
-      dispatchClearList: { type: searchListContainerTypes.CLEAR_SEARCH_LIST }
+      dispatchSearchList: { term, type: trackReduxTypes.REQUEST_GET_SEARCHED_TUNES },
+      dispatchClearList: { type: trackReduxTypes.CLEAR_SEARCH_LIST }
     };
 
     const props = mapDispatchToProps(dispatchSearchTermSpy);

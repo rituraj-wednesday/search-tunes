@@ -6,7 +6,7 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import { getSearchedList } from '@services/itunesApi';
 import { apiResponseGenerator } from '@utils/testUtils';
 import searchListContainerSaga, { getSearchedTuneList } from '../saga';
-import { searchListContainerTypes } from '../reducer';
+import { trackReduxTypes } from '../reducer';
 
 describe('SearchListContainer saga tests', () => {
   const generator = searchListContainerSaga();
@@ -14,7 +14,7 @@ describe('SearchListContainer saga tests', () => {
   let getSearchListGenerator = getSearchedTuneList({ term });
 
   it('should start task to watch for REQUEST_GET_SEARCHED_TUNES action', () => {
-    expect(generator.next().value).toEqual(takeLatest(searchListContainerTypes.REQUEST_GET_SEARCHED_TUNES, getSearchedTuneList));
+    expect(generator.next().value).toEqual(takeLatest(trackReduxTypes.REQUEST_GET_SEARCHED_TUNES, getSearchedTuneList));
   });
 
   it('should ensure that the action FAILURE_GET_SEARCHED_TUNES is dispatched when the api call fails', () => {
@@ -25,7 +25,7 @@ describe('SearchListContainer saga tests', () => {
     };
     expect(getSearchListGenerator.next(apiResponseGenerator(false, errorResponse)).value).toEqual(
       put({
-        type: searchListContainerTypes.FAILURE_GET_SEARCHED_TUNES,
+        type: trackReduxTypes.FAILURE_GET_SEARCHED_TUNES,
         error: errorResponse
       })
     );
@@ -41,7 +41,7 @@ describe('SearchListContainer saga tests', () => {
     };
     expect(getSearchListGenerator.next(apiResponseGenerator(true, tracksResponse)).value).toEqual(
       put({
-        type: searchListContainerTypes.SUCCESS_GET_SEARCHED_TUNES,
+        type: trackReduxTypes.SUCCESS_GET_SEARCHED_TUNES,
         data: tracksResponse
       })
     );

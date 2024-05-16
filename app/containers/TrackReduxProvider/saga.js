@@ -1,11 +1,11 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 import { getSearchedList } from '@services/itunesApi';
-import { searchListContainerTypes, searchListContainerCreators } from './reducer';
+import { trackReduxTypes, trackReduxCreators } from './reducer';
 
 // Individual exports for testing
-const { REQUEST_GET_SEARCHED_TUNES } = searchListContainerTypes;
+const { REQUEST_GET_SEARCHED_TUNES } = trackReduxTypes;
 
-const { successGetSearchedTunes, failureGetSearchedTunes } = searchListContainerCreators;
+const { successGetSearchedTunes, failureGetSearchedTunes } = trackReduxCreators;
 
 /**
  * A saga that handles fetching GitHub repositories based on a given repository name.

@@ -15,10 +15,10 @@ import T from '@components/T';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import saga from './saga';
+import saga from '../TrackReduxProvider/saga';
 import { translate } from '@app/utils';
-import { selectError, selectLoading, selectTerm, selectTrackList } from './selectors';
-import { searchListContainerCreators } from './reducer';
+import { selectError, selectLoading, selectTerm, selectTrackList } from '../TrackReduxProvider/selectors';
+import { trackReduxCreators } from '../TrackReduxProvider/reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
 import { Track } from '@app/components/Track/index';
@@ -184,7 +184,7 @@ const mapStateToProps = createStructuredSelector({
 
 // eslint-disable-next-line require-jsdoc
 export function mapDispatchToProps(dispatch) {
-  const { requestGetSearchedTunes, clearSearchList } = searchListContainerCreators;
+  const { requestGetSearchedTunes, clearSearchList } = trackReduxCreators;
   return {
     dispatchSearchList: (term) => dispatch(requestGetSearchedTunes(term)),
     dispatchClearList: () => dispatch(clearSearchList())
