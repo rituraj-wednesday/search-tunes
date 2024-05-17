@@ -18,7 +18,10 @@ jest.mock('@app/utils/audioController', () => {
   mockedStop = jest.fn();
 
   return {
-    play: mockedPlay,
+    play: (track, setLoading) => {
+      setLoading(true);
+      mockedPlay(track);
+    },
     stop: mockedStop,
     registerAudio: jest.fn(),
   };
@@ -47,6 +50,7 @@ describe('<Track />', () => {
     expect(playButtonEle.length).toBe(1);
     fireEvent.click(playButtonEle[0]);
     expect(mockedPlay).toHaveBeenCalledWith({ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 });
+    expect(element.getAllByLabelText(`${translate('play_text')} ${translate('button_text')}`)).toMatchSnapshot();
   });
 
   it('should call play audio on Pause Button click', () => {

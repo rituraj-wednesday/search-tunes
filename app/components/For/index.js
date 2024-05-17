@@ -53,7 +53,7 @@ const renderChildren = (renderItem, ParentComponent, props) => (
 export function For({ ParentComponent = defaultParent, renderItem, noParent, ...props }) {
   return (
     <>
-      <If condition={(props.of || []).length}>
+      <If condition={(props.of || []).length !== 0}>
         <If condition={noParent} otherwise={renderChildren(renderItem, ParentComponent, props)}>
           {renderList(props.of, renderItem)}
         </If>

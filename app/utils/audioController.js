@@ -16,59 +16,64 @@ class AudioController {
     return this.onAudioChangeHandlers.length - 1;
   };
 
-  registerAudio = async (track) => {
+  registerAudio = (track) => {
     const { trackId, previewUrl: audioUrl } = track;
 
     if (this.audioData[trackId]) {
       return;
     }
-    await this.loading;
 
-    const audio = new Audio();
-
-    const response = await fetch(audioUrl);
-
-    if (response.status === 206) {
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-      audio.src = URL.createObjectURL(new Blob([audioBuffer], { type: 'audio/mpeg' }));
-    } else {
-      audio.src = audioUrl;
-    }
+    const audio = new Audio(audioUrl);
+    audio.preload = 'none';
     this.audioData[trackId] = {
       audio,
       otherData: track
     };
 
-    this.loading = new Promise((resolve) => {
-      audio.addEventListener('loadeddata', resolve);
-    });
+    audio.onloadeddata = () => {
+      this.audioData[trackId].loaded = true;
+    };
+
+    audio.onended = () => {
+      audio.currentTime = 0;
+      this.currentlyPlaying = null;
+      this.onPlayingAudioChange();
+    };
+
+    audio.onerror = (event) => {
+      console.error('Error:', event);
+    };
   };
 
-  async play(track) {
+  checkAudioIsLoaded = async (audioObj) =>
+    new Promise((resolve) => {
+      audioObj.audio.onloadeddata = () => {
+        resolve(true);
+      };
+    });
+
+  async play(track, setLoading) {
+    setLoading(true);
     const { trackId } = track;
     if (this.currentlyPlaying !== null) {
       this.stop();
     }
 
     let audioObj = this.audioData[trackId];
-    if (audioObj) {
-      audioObj.audio.play();
-      this.currentlyPlaying = trackId;
-      this.onPlayingAudioChange();
-    } else {
-      const { previewUrl } = track;
-      await this.registerAudio(trackId, previewUrl, track);
+    if (!audioObj) {
+      this.registerAudio(track);
       audioObj = this.audioData[trackId];
-
-      if (audioObj) {
-        audioObj.audio.play();
-        this.currentlyPlaying = trackId;
-        this.onPlayingAudioChange();
-      } else {
-        console.error('Audio not found for trackId:', trackId);
-      }
     }
+
+    if (!audioObj.loaded) {
+      audioObj.audio.load();
+      await this.checkAudioIsLoaded(audioObj);
+      audioObj.loaded = true;
+    }
+    audioObj.audio.play();
+    this.currentlyPlaying = trackId;
+    this.onPlayingAudioChange();
+    setLoading(false);
   }
 
   onPlayingAudioChange = () => {
@@ -83,7 +88,6 @@ class AudioController {
     if (this.currentlyPlaying !== null) {
       const audioObj = this.audioData[this.currentlyPlaying];
       audioObj.audio.pause();
-      audioObj.audio.currentTime = 0;
       this.currentlyPlaying = null;
       this.onPlayingAudioChange();
     }
