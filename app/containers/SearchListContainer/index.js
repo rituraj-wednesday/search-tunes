@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { debounce, isEmpty, get } from 'lodash';
 import styled from '@emotion/styled';
@@ -21,14 +21,14 @@ import { selectError, selectLoading, selectTerm, selectTrackList } from './selec
 import { searchListContainerCreators } from './reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
-import { TuneTile } from '@app/components/TuneTile/index';
+import { Track } from '@app/components/Track/index';
+import audioController from '@app/utils/audioController';
 
 const CustomCard = styled(Card)`
   && {
     margin: 1.25rem 0;
     padding: 1rem;
     max-width: ${(props) => props.maxwidth};
-    ${(props) => props.color && `color: ${props.color}`};
   }
 `;
 const CustomCardHeader = styled(CardHeader)`
@@ -48,18 +48,22 @@ const StyledOutlinedInput = styled(OutlinedInput)`
 const Container = styled.div`
   && {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Each column is a minimum of 60px */
-    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    grid-gap: 0.5rem;
   }
 `;
 
-const renderTrackList = (trackList, loading) => {
+const renderTrackList = (trackList, loading, currentTrackID) => {
   const resultCount = get(trackList, 'resultCount', 0);
   const results = get(trackList, 'results', []);
   return (
     <If condition={resultCount && !loading}>
       <CustomCard>
-        <For of={results} ParentComponent={Container} renderItem={(track) => <TuneTile track={track} />} />
+        <For
+          of={results}
+          ParentComponent={Container}
+          renderItem={(track) => <Track track={track} currentTrackID={currentTrackID} />}
+        />
       </CustomCard>
     </If>
   );
@@ -78,6 +82,16 @@ const renderTrackList = (trackList, loading) => {
  * @returns {JSX.Element} The SearchList component.
  */
 export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term }) {
+  const [currentTrackID, setCurrentTrackID] = useState(null);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (firstRender) {
+      audioController.registerAudioChangeHandlers(setCurrentTrackID);
+      setFirstRender(false);
+    }
+  }, []);
+
   const searchTunes = (newTerm) => {
     dispatchSearchList(newTerm);
   };
@@ -99,7 +113,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
         <Divider sx={{ mb: 1.25 }} light />
         <T marginBottom={10} id="search_song_detail" />
         <StyledOutlinedInput
-          inputProps={{ 'data-testid': 'search-bar' }}
+          inputProps={{ 'aria-label': translate('search_bar') }}
           onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
           defaultValue={term}
@@ -108,7 +122,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
             <InputAdornment position="end">
               <IconButton
                 data-testid="search-icon"
-                aria-label="search tunes"
+                aria-label={`${translate('search_bar')} ${translate('button_text')}`}
                 type="button"
                 onClick={() => searchTunes(term)}
               >
@@ -118,7 +132,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           }
         />
       </CustomCard>
-      {renderTrackList(trackList)}
+      {renderTrackList(trackList, false, currentTrackID)}
     </div>
   );
 }
@@ -148,7 +162,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 // eslint-disable-next-line require-jsdoc
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   const { requestGetSearchedTunes, clearSearchList } = searchListContainerCreators;
   return {
     dispatchSearchList: (term) => dispatch(requestGetSearchedTunes(term)),
@@ -160,4 +174,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect, memo, injectSaga({ key: 'searchListContainer', saga }))(SearchListContainer);
 
-export const SearchListContainerTest = compose()(SearchListContainer);
+export const SearchListContainerTest = compose(withConnect)(SearchListContainer);

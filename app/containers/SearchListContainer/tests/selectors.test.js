@@ -5,6 +5,7 @@ import {
   selectError,
   selectTrackList,
 } from '../selectors';
+import { initialState } from '../reducer';
 
 describe('SearchListContainer selector tests', () => {
   const mockedState = {
@@ -19,6 +20,11 @@ describe('SearchListContainer selector tests', () => {
   it('should select the searchListContainer state', () => {
     const searchListContainerSelector = selectSearchListContainer();
     expect(searchListContainerSelector(mockedState)).toEqual(mockedState.searchListContainer);
+  });
+
+  it('should select the searchListContainer with initialState', () => {
+    const searchListContainerSelector = selectSearchListContainer();
+    expect(searchListContainerSelector()).toEqual(initialState);
   });
 
   it('should select the term state', () => {

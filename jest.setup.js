@@ -44,3 +44,14 @@ jest.mock('redux-persist', () => ({
   ...jest.requireActual('redux-persist'),
   persistReducer: jest.fn().mockImplementation((config, reducer) => reducer)
 }));
+
+// eslint-disable-next-line immutable/no-mutation
+window.AudioContext = jest.fn().mockImplementation(() => {
+  return {};
+});
+
+// eslint-disable-next-line immutable/no-mutation
+global.fetch = jest.fn().mockResolvedValue({
+  status: 200,
+  arrayBuffer: jest.fn().mockResolvedValue({})
+});
