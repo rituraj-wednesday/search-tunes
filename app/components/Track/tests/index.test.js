@@ -47,7 +47,6 @@ describe('<Track />', () => {
   it('should call play audio on Play Button click', () => {
     const element = renderWithIntl(<Track track={{ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 }} currentTrackID={2} />);
     const playButtonEle = element.getAllByLabelText(`${translate('playText')} ${translate('buttonText')}`);
-    console.log(playButtonEle.length);
     expect(playButtonEle.length).toBe(1);
     fireEvent.click(playButtonEle[0]);
     expect(mockedPlay).toHaveBeenCalledWith({ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 });
@@ -57,7 +56,6 @@ describe('<Track />', () => {
   it('sshould call play audio on Pause Button click', () => {
     const element = renderWithIntl(<Track track={{ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 }} currentTrackID={1} />);
     const pauseButtonEle = element.getAllByLabelText(`${translate('pauseText')} ${translate('buttonText')}`);
-    console.log(pauseButtonEle.length);
     expect(pauseButtonEle.length).toBe(1);
     fireEvent.click(pauseButtonEle[0]);
     expect(mockedStop).toHaveBeenCalled();

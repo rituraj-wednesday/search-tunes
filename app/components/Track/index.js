@@ -5,6 +5,7 @@
  */
 
 import React, { memo, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import IconButton from '@mui/material/IconButton';
@@ -86,8 +87,9 @@ const LoadingIcon = () => (
  * @param {string} props.track - Track data.
  * @returns {JSX.Element} The Track component.
  */
-export function Track({ track, currentTrackID }) {
+export function Track({ track, currentTrackID, onTrackInfoClick }) {
   const { trackId } = track;
+  const history = useHistory();
   const isPlaying = currentTrackID === trackId;
   const [isLoading, setLoading] = useState(false);
 
@@ -101,6 +103,13 @@ export function Track({ track, currentTrackID }) {
     } else {
       audioController.stop();
     }
+  };
+
+  const openTrackInfoPage = () => {
+    onTrackInfoClick([track]);
+    setTimeout(() => {
+      history.push(`/track/${trackId}`);
+    }, 0);
   };
 
   return (
@@ -135,6 +144,7 @@ export function Track({ track, currentTrackID }) {
                 height: '60px',
                 width: '60px'
               }}
+              onClick={openTrackInfoPage}
             >
               <InfoRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
             </IconButton>
@@ -152,7 +162,8 @@ Track.propTypes = {
     trackId: PropTypes.number,
     previewUrl: PropTypes.string
   }),
-  currentTrackID: PropTypes.number
+  currentTrackID: PropTypes.number,
+  onTrackInfoClick: PropTypes.func
 };
 
 Track.defaultProps = {

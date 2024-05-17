@@ -12,7 +12,7 @@ export const initialState = {
   error: null,
   loading: false,
   trackId: null,
-  trackInfo: {}
+  trackInfo: null
 };
 
 export const { Types: trackReduxTypes, Creators: trackReduxCreators } = createActions({
@@ -22,7 +22,8 @@ export const { Types: trackReduxTypes, Creators: trackReduxCreators } = createAc
   clearSearchList: [],
   requestGetTrackInfo: ['trackId'],
   successGetTrackInfo: ['data'],
-  failureGetTrackInfo: ['error']
+  failureGetTrackInfo: ['error'],
+  setTrackInfoFromState: ['results']
 });
 
 const trackInfoQueryCases = (draft, action) => {
@@ -38,8 +39,15 @@ const trackInfoQueryCases = (draft, action) => {
       break;
     case trackReduxTypes.FAILURE_GET_TRACK_INFO:
       draft.error = get(action.error, 'message', 'something_went_wrong');
-      draft.trackInfo = {};
+      draft.trackInfo = null;
       draft.loading = false;
+      break;
+    case trackReduxTypes.SET_TRACK_INFO_FROM_STATE:
+      draft.trackInfo = {
+        resultCount: action.results.length,
+        results: action.results
+      };
+      draft.trackId = action.results[0].trackId;
       break;
   }
 };

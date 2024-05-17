@@ -1,6 +1,7 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { put, call, takeLatest, select } from 'redux-saga/effects';
 import { getSearchedList, getTrackInfo as getTrackInfoAPI } from '@services/itunesApi';
 import { trackReduxTypes, trackReduxCreators } from './reducer';
+import { selectTrackInfo } from './selectors';
 
 // Individual exports for testing
 const { REQUEST_GET_SEARCHED_TUNES, REQUEST_GET_TRACK_INFO } = trackReduxTypes;
@@ -38,6 +39,9 @@ export function* searchListContainerSaga() {
   yield takeLatest(REQUEST_GET_SEARCHED_TUNES, getSearchedTuneList);
 }
 
+const checkIfTrackInfoExist = (trackInfo, trackId) =>
+  trackInfo && (trackInfo.results || []).length >= 1 && trackInfo.results[0].trackId === +trackId;
+
 /**
  * A saga that handles fetching GitHub repositories based on a given repository name.
  * On success, it dispatches a success action with the fetched data.
@@ -49,6 +53,12 @@ export function* searchListContainerSaga() {
  * @yields {Effect} The effect of calling the API, and then either the success or failure action.
  */
 export function* getTrackInfo(action) {
+  const trackInfo = yield select(selectTrackInfo());
+
+  if (checkIfTrackInfoExist(trackInfo, action.trackId)) {
+    return;
+  }
+
   const response = yield call(getTrackInfoAPI, action.trackId);
   const { data, ok } = response;
   if (ok) {

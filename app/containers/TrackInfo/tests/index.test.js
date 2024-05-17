@@ -11,14 +11,8 @@ import { renderProvider } from '@utils/testUtils';
 import { TrackInfoTest as TrackInfo } from '../index';
 
 describe('<TrackInfo /> container tests', () => {
-  // let submitSpy
-
-  beforeEach(() => {
-    // submitSpy = jest.fn();
-  });
-
   it('should render and match the snapshot', () => {
-    const { baseElement } = renderProvider(<TrackInfo />);
+    const { baseElement } = renderProvider(<TrackInfo match={{params: { trackId: 1 }}}/>);
     expect(baseElement).toMatchSnapshot();
   });
 });
