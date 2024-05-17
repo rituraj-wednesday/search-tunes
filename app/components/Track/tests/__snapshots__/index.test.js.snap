@@ -5,14 +5,14 @@ exports[`<Track /> should render and match the snapshot 1`] = `
   <div>
     <div
       aria-label="hello"
-      class="css-maqvjk e1b9j16n3"
+      class="css-khr3ye e1b9j16n3"
       title="hello"
     >
       <div
-        class="css-1jexdpe e1b9j16n4"
+        class="css-104uwmo e1b9j16n4"
       >
         <div
-          class="css-1ezvobt e1b9j16n0"
+          class="css-1az82wx e1b9j16n0"
         >
           hello
         </div>
@@ -20,17 +20,17 @@ exports[`<Track /> should render and match the snapshot 1`] = `
           class="css-15currb e1b9j16n1"
         >
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-4ymtup e1b9j16n2"
           >
             <button
               aria-label="Pause Button"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4ua1wp-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-jh7i0d-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                 data-testid="PauseCircleFilledRoundedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -45,16 +45,16 @@ exports[`<Track /> should render and match the snapshot 1`] = `
             </button>
           </div>
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-4ymtup e1b9j16n2"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1wytf1x-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-glkke5-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                 data-testid="InfoRoundedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -80,14 +80,14 @@ exports[`<Track /> should render and match the snapshot when audio isPlaying 1`]
   <div>
     <div
       aria-label="hello"
-      class="css-maqvjk e1b9j16n3"
+      class="css-khr3ye e1b9j16n3"
       title="hello"
     >
       <div
-        class="css-1jexdpe e1b9j16n4"
+        class="css-104uwmo e1b9j16n4"
       >
         <div
-          class="css-1ezvobt e1b9j16n0"
+          class="css-1az82wx e1b9j16n0"
         >
           hello
         </div>
@@ -95,17 +95,17 @@ exports[`<Track /> should render and match the snapshot when audio isPlaying 1`]
           class="css-15currb e1b9j16n1"
         >
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-4ymtup e1b9j16n2"
           >
             <button
               aria-label="Pause Button"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4ua1wp-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-jh7i0d-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                 data-testid="PauseCircleFilledRoundedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -120,16 +120,16 @@ exports[`<Track /> should render and match the snapshot when audio isPlaying 1`]
             </button>
           </div>
           <div
-            class="css-17sc1nx e1b9j16n2"
+            class="css-4ymtup e1b9j16n2"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1wytf1x-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-glkke5-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                 data-testid="InfoRoundedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"

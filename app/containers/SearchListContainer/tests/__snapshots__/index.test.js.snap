@@ -171,34 +171,34 @@ exports[`<SearchListContainer /> container tests should render and match the sna
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root e14bd4cc3 css-14b3cuv-MuiPaper-root-MuiCard-root"
       >
         <div
-          class="css-pxs22v e14bd4cc0"
+          class="css-1dv7wor e14bd4cc0"
           data-testid="for"
           orientation="row"
         >
           <div
-            class="css-1i2go3v e1b9j16n3"
+            class="css-110w0sx e1b9j16n3"
           >
             <div
-              class="css-5ihqdd e1b9j16n4"
+              class="css-152lowo e1b9j16n4"
             >
               <div
-                class="css-1ezvobt e1b9j16n0"
+                class="css-1az82wx e1b9j16n0"
               />
               <div
                 class="css-15currb e1b9j16n1"
               >
                 <div
-                  class="css-17sc1nx e1b9j16n2"
+                  class="css-4ymtup e1b9j16n2"
                 >
                   <button
                     aria-label="Play Button"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4ua1wp-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-jh7i0d-MuiButtonBase-root-MuiIconButton-root"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                       data-testid="PlayCircleFilledRoundedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -213,16 +213,16 @@ exports[`<SearchListContainer /> container tests should render and match the sna
                   </button>
                 </div>
                 <div
-                  class="css-17sc1nx e1b9j16n2"
+                  class="css-4ymtup e1b9j16n2"
                 >
                   <button
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1wytf1x-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-glkke5-MuiButtonBase-root-MuiIconButton-root"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-11bbgqr-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-oi4oci-MuiSvgIcon-root"
                       data-testid="InfoRoundedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"

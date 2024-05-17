@@ -48,8 +48,8 @@ const StyledOutlinedInput = styled(OutlinedInput)`
 const Container = styled.div`
   && {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Each column is a minimum of 60px */
-    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    grid-gap: 0.5rem;
   }
 `;
 
