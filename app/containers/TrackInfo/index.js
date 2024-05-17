@@ -38,7 +38,7 @@ const LoadingCard = styled(CustomCard)`
 
 const DetailsGrid = styled.div`
   display: grid;
-  grid-gap: 8rem;
+  grid-gap: 4rem;
   grid-template-columns: 16rem auto;
   width: 100%;
   height: 16rem;
@@ -74,6 +74,20 @@ const LoadingSVGWrapper = styled.div`
   width: 50px;
   border-radius: 50%;
   background-color: white;
+`;
+
+const EWrapper = styled.span`
+  background: black;
+  margin: auto 0.5rem;
+  border-radius: 4px;
+  width: 1rem;
+  padding: 0.2rem;
+  color: white;
+  font-weight: 700;
+`;
+
+const LabelWrapper = styled.span`
+  font-weight: 500;
 `;
 
 const LoadingIcon = () => (
@@ -160,10 +174,49 @@ export function TrackInfo(props) {
             </IconButton>
             <BottomGradient />
           </TrackContainer>
+          <div>
+            <div>
+              <LabelWrapper>Song Name: </LabelWrapper>
+              {trackData.trackName}
+              <If condition={trackData?.contentAdvisoryRating === 'Explicit'}>
+                <EWrapper>E</EWrapper>
+              </If>
+            </div>
+            <div>
+              <LabelWrapper>Artist Name: </LabelWrapper>
+              {trackData.artistName}
+            </div>
+            <div>
+              <LabelWrapper>Genre: </LabelWrapper>
+              {trackData.primaryGenreName}
+            </div>
+            <div>
+              <LabelWrapper>Country: </LabelWrapper>
+              {trackData.country}
+            </div>
+            <div>
+              <LabelWrapper>Price: </LabelWrapper>
+              {trackData.trackPrice}
+              <LabelWrapper> {trackData.currency}</LabelWrapper>
+            </div>
+            <div>
+              <LabelWrapper>Album Name: </LabelWrapper>
+              {trackData.collectionName}
+              <If condition={trackData.collectionExplicitness === 'explicit'}>
+                <EWrapper>E</EWrapper>
+              </If>
+            </div>
+            <div>
+              <LabelWrapper>Album Price: </LabelWrapper>
+              {trackData.collectionPrice}
+              <LabelWrapper> {trackData.currency}</LabelWrapper>
+            </div>
+            <div>
+              <LabelWrapper>Release Data: </LabelWrapper>
+              {new Date(trackData.releaseDate).toDateString()}
+            </div>
+          </div>
         </DetailsGrid>
-        {/* <If condition={!isTrackLoading} otherwise={<Loading />}>
-          <button onClick={onPlayClick}>{!isTrackPlaying ? 'Play' : 'Pause'}</button>
-        </If> */}
       </CustomCard>
     </If>
   );

@@ -4,13 +4,13 @@ exports[`<TrackInfo /> container tests should render and match the snapshot 1`] 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ercpcbo5 css-14b3cuv-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ercpcbo7 css-14b3cuv-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="css-5wy8ct ercpcbo3"
+        class="css-1azg525 ercpcbo5"
       >
         <div
-          class="css-8a4jlr ercpcbo1"
+          class="css-1y41ep0 ercpcbo3"
         >
           <button
             aria-label="Play Button"
@@ -34,8 +34,77 @@ exports[`<TrackInfo /> container tests should render and match the snapshot 1`] 
             />
           </button>
           <div
-            class="css-vpl511 ercpcbo2"
+            class="css-vpl511 ercpcbo4"
           />
+        </div>
+        <div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Song Name: 
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Artist Name: 
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Genre: 
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Country: 
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Price: 
+            </span>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+               
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Album Name: 
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Album Price: 
+            </span>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+               
+            </span>
+          </div>
+          <div>
+            <span
+              class="css-f3vz0n ercpcbo0"
+            >
+              Release Data: 
+            </span>
+            Invalid Date
+          </div>
         </div>
       </div>
     </div>
