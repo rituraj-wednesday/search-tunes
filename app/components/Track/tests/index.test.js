@@ -49,7 +49,7 @@ describe('<Track />', () => {
     expect(mockedPlay).toHaveBeenCalledWith({ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 });
   });
 
-  it('sshould call play audio on Pause Button click', () => {
+  it('should call play audio on Pause Button click', () => {
     const element = renderWithIntl(<Track track={{ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 }} currentTrackID={1} />);
     const pauseButtonEle = element.getAllByLabelText(`${translate('pauseText')} ${translate('buttonText')}`);
     expect(pauseButtonEle.length).toBe(1);
