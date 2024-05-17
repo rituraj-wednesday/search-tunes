@@ -21,6 +21,9 @@ import Loading from '@app/components/Loading/index';
 import { translate } from '@app/utils/index';
 import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
 import PauseCircleFilledRoundedIcon from '@mui/icons-material/PauseCircleFilledRounded';
+import AlbumIcon from '@mui/icons-material/Album';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import MicExternalOnIcon from '@mui/icons-material/MicExternalOn';
 
 const CustomCard = styled(Card)`
   && {
@@ -50,7 +53,7 @@ const BottomGradient = styled.div`
   width: 100%;
   position: relative;
   bottom: 3.5rem;
-  transition: height 1s ease, bottom 1s ease;
+  transition: height 0.5s ease, bottom 0.5s ease;
 `;
 
 const TrackContainer = styled.div`
@@ -61,7 +64,9 @@ const TrackContainer = styled.div`
   overflow: hidden;
   background-image: url(${(props) => props.artURL});
   background-size: cover;
+  transition: filter 0.5s ease;
   :hover {
+    filter: drop-shadow(3px 3px 6px black);
     ${BottomGradient} {
       height: 10rem;
       bottom: 9.5rem;
@@ -84,6 +89,10 @@ const EWrapper = styled.span`
   padding: 0.2rem;
   color: white;
   font-weight: 700;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
 `;
 
 const LabelWrapper = styled.span`
@@ -137,6 +146,10 @@ export function TrackInfo(props) {
     } else {
       audioController.stop();
     }
+  };
+
+  const onDetialIconClick = (url) => {
+    window.open(url, '_blank');
   };
 
   return (
@@ -215,6 +228,17 @@ export function TrackInfo(props) {
               <LabelWrapper>Release Data: </LabelWrapper>
               {new Date(trackData.releaseDate).toDateString()}
             </div>
+            <ButtonContainer>
+              <IconButton onClick={() => onDetialIconClick(trackData.trackViewUrl)}>
+                <MusicNoteIcon />
+              </IconButton>
+              <IconButton onClick={() => onDetialIconClick(trackData.collectionViewUrl)}>
+                <AlbumIcon />
+              </IconButton>
+              <IconButton onClick={() => onDetialIconClick(trackData.artistViewUrl)}>
+                <MicExternalOnIcon />
+              </IconButton>
+            </ButtonContainer>
           </div>
         </DetailsGrid>
       </CustomCard>
