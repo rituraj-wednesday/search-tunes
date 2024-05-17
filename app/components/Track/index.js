@@ -21,16 +21,16 @@ const TrackArtHoverLayer = styled.div`
   width: 100%;
   background: #000000b0;
   position: relative;
-  top: ${(props) => (props.isPlaying ? '0px' : 'calc(100% - 46px)')};
+  top: ${(props) => (props.isPlaying ? '0rem' : 'calc(100% - 3rem)')};
   transition: top 200ms ease;
 `;
 
 const TrackWrapper = styled.div`
-  border-radius: 4px;
-  border: 3px solid #a88d8d;
+  border-radius: 0.5rem;
+  border: 0.25rem solid #a88d8d;
   overflow: hidden;
-  height: 200px;
-  width: 200px;
+  height: 12.5rem;
+  width: 12.5rem;
   background-image: url(${(props) => props.trackArtURL});
   background-size: cover;
   :hover {
@@ -42,7 +42,7 @@ const TrackWrapper = styled.div`
 
 const InfoIconWrapper = styled.div`
   width: 50%;
-  height: calc(100% - 48px);
+  height: calc(100% - 3rem);
   display: flex;
 `;
 
@@ -53,10 +53,10 @@ const ButtonFlex = styled.div`
 
 const TitleWrapper = styled.div`
   color: white;
-  font-size: 24px;
-  height: 46px;
+  font-size: 1.5rem;
+  height: 3rem;
   font-weight: 500;
-  padding: 6px;
+  padding: 0.4rem;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -111,19 +111,19 @@ export function Track({ track, currentTrackID }) {
           <InfoIconWrapper>
             <IconButton
               sx={{
-                margin: 'calc(30% - 4px) 8px auto auto',
-                height: '60px',
-                width: '60px'
+                margin: 'calc(30% - 0.25rem) 0.5rem auto auto',
+                height: '3.75rem',
+                width: '3.75rem'
               }}
-              aria-label={`${isPlaying ? translate('pauseText') : translate('playText')} ${translate('buttonText')}`}
+              aria-label={`${isPlaying ? translate('pause_text') : translate('play_text')} ${translate('button_text')}`}
               onClick={onPlayPauseClick}
             >
               <If condition={!isLoading} otherwise={<LoadingIcon />}>
                 <If
                   condition={!isPlaying}
-                  otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />}
+                  otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '3.75rem' }} />}
                 >
-                  <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+                  <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '3.75rem' }} />
                 </If>
               </If>
             </IconButton>
@@ -131,12 +131,12 @@ export function Track({ track, currentTrackID }) {
           <InfoIconWrapper>
             <IconButton
               sx={{
-                margin: 'calc(30% - 4px) auto auto 8px',
-                height: '60px',
-                width: '60px'
+                margin: 'calc(30% - 0.25rem) auto auto 0.5rem',
+                height: '3.75rem',
+                width: '3.75rem'
               }}
             >
-              <InfoRoundedIcon sx={{ color: 'white', fontSize: '60px' }} />
+              <InfoRoundedIcon sx={{ color: 'white', fontSize: '3.75rem' }} />
             </IconButton>
           </InfoIconWrapper>
         </ButtonFlex>
