@@ -113,7 +113,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
         <Divider sx={{ mb: 1.25 }} light />
         <T marginBottom={10} id="search_song_detail" />
         <StyledOutlinedInput
-          inputProps={{ 'aria-label': translate('searchBar') }}
+          inputProps={{ 'aria-label': translate('search_bar') }}
           onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
           defaultValue={term}
@@ -122,7 +122,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
             <InputAdornment position="end">
               <IconButton
                 data-testid="search-icon"
-                aria-label={`${translate('searchBar')} ${translate('buttonText')}`}
+                aria-label={`${translate('search_bar')} ${translate('button_text')}`}
                 type="button"
                 onClick={() => searchTunes(term)}
               >

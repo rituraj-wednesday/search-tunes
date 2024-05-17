@@ -100,7 +100,7 @@ export function Track({ track, currentTrackID }) {
                 height: '3.75rem',
                 width: '3.75rem'
               }}
-              aria-label={`${isPlaying ? translate('pauseText') : translate('playText')} ${translate('buttonText')}`}
+              aria-label={`${isPlaying ? translate('pause_text') : translate('play_text')} ${translate('button_text')}`}
               onClick={onPlayPauseClick}
             >
               <If
