@@ -48,6 +48,7 @@ const trackInfoQueryCases = (draft, action) => {
         results: action.results
       };
       draft.trackId = action.results[0].trackId;
+      draft.loading = false;
       break;
   }
 };

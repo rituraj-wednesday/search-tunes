@@ -11,11 +11,76 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
+import { Card, IconButton } from '@mui/material';
+import styled from '@emotion/styled';
 import { trackReduxCreators } from '../TrackReduxProvider/reducer';
-import { selectTrackInfo } from '../TrackReduxProvider/selectors';
+import { selectTrackInfo, selectLoading } from '../TrackReduxProvider/selectors';
 import { trackInfoContainerSaga } from '../TrackReduxProvider/saga';
 import audioController from '@app/utils/audioController';
 import Loading from '@app/components/Loading/index';
+import { translate } from '@app/utils/index';
+import PlayCircleFilledRoundedIcon from '@mui/icons-material/PlayCircleFilledRounded';
+import PauseCircleFilledRoundedIcon from '@mui/icons-material/PauseCircleFilledRounded';
+
+const CustomCard = styled(Card)`
+  && {
+    margin: 1.25rem 0;
+    padding: 1rem;
+    max-width: ${(props) => props.maxwidth};
+  }
+`;
+
+const LoadingCard = styled(CustomCard)`
+  && {
+    text-align: center;
+  }
+`;
+
+const DetailsGrid = styled.div`
+  display: grid;
+  grid-gap: 8rem;
+  grid-template-columns: 16rem auto;
+  width: 100%;
+  height: 16rem;
+`;
+
+const BottomGradient = styled.div`
+  background: linear-gradient(transparent, #000000);
+  height: 4rem;
+  width: 100%;
+  position: relative;
+  bottom: 3.5rem;
+  transition: height 1s ease, bottom 1s ease;
+`;
+
+const TrackContainer = styled.div`
+  height: 16rem;
+  width: 16rem;
+  border-radius: 0.5rem;
+  border: 0.25rem solid #a88d8d;
+  overflow: hidden;
+  background-image: url(${(props) => props.artURL});
+  background-size: cover;
+  :hover {
+    ${BottomGradient} {
+      height: 10rem;
+      bottom: 9.5rem;
+    }
+  }
+`;
+
+const LoadingSVGWrapper = styled.div`
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: white;
+`;
+
+const LoadingIcon = () => (
+  <LoadingSVGWrapper>
+    <Loading height="50px" width="50px" />
+  </LoadingSVGWrapper>
+);
 
 /**
  * TrackInfo container that handles the logic for displaying track detailed infor.
@@ -25,26 +90,29 @@ import Loading from '@app/components/Loading/index';
  * @returns {JSX.Element} The SearchList TrackInfo container.
  */
 export function TrackInfo(props) {
-  const { match, dispatchTrackID, trackInfo } = props;
+  const { match, dispatchTrackID, trackInfo, loading: InfoLoading } = props;
   const {
     params: { trackId }
   } = match;
-  const checkIfTrackIsPlaying = (newTrackId) => newTrackId === +trackId;
+  const checkTrackID = (newTrackId) => newTrackId === +trackId;
   const [firstRender, setFirstRender] = useState(true);
-  const [isTrackPlaying, setIsTrackPlaying] = useState(checkIfTrackIsPlaying(audioController.currentlyPlaying));
+  const [currentTrackID, setCurrentTrackID] = useState(audioController.currentlyPlaying);
   const [isTrackLoading, setIsTrackLoading] = useState(false);
+  const isTrackPlaying = checkTrackID(currentTrackID);
   let trackData = {};
   if (trackInfo?.results && trackInfo?.results?.length >= 1) {
     trackData = trackInfo.results[0];
   }
 
   useEffect(() => {
-    dispatchTrackID(trackId);
-  }, []);
+    if (!checkTrackID(trackData.trackId)) {
+      dispatchTrackID(trackId);
+    }
+  }, [trackData]);
 
   useEffect(() => {
     if (firstRender) {
-      audioController.registerAudioChangeHandlers((id) => setIsTrackPlaying(checkIfTrackIsPlaying(id)));
+      audioController.registerAudioChangeHandlers(setCurrentTrackID);
       setFirstRender(true);
     }
   }, [firstRender]);
@@ -58,11 +126,46 @@ export function TrackInfo(props) {
   };
 
   return (
-    <div>
-      <If condition={!isTrackLoading} otherwise={<Loading />}>
-        <button onClick={onPlayClick}>{!isTrackPlaying ? 'Play' : 'Pause'}</button>
-      </If>
-    </div>
+    <If
+      condition={!InfoLoading}
+      otherwise={
+        <LoadingCard>
+          <Loading height="100px" width="100px" />
+        </LoadingCard>
+      }
+    >
+      <CustomCard>
+        <DetailsGrid>
+          <TrackContainer artURL={trackData.artworkUrl100}>
+            <IconButton
+              sx={{
+                margin: 'calc(100% - 4rem) auto auto calc(100% - 4rem)',
+                height: '3.75rem',
+                width: '3.75rem',
+                zIndex: 2
+              }}
+              aria-label={`${isTrackPlaying ? translate('pause_text') : translate('play_text')} ${translate(
+                'button_text'
+              )}`}
+              onClick={onPlayClick}
+            >
+              <If condition={!isTrackLoading} otherwise={<LoadingIcon />}>
+                <If
+                  condition={!isTrackPlaying}
+                  otherwise={<PauseCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '3.75rem' }} />}
+                >
+                  <PlayCircleFilledRoundedIcon sx={{ color: 'white', fontSize: '3.75rem' }} />
+                </If>
+              </If>
+            </IconButton>
+            <BottomGradient />
+          </TrackContainer>
+        </DetailsGrid>
+        {/* <If condition={!isTrackLoading} otherwise={<Loading />}>
+          <button onClick={onPlayClick}>{!isTrackPlaying ? 'Play' : 'Pause'}</button>
+        </If> */}
+      </CustomCard>
+    </If>
   );
 }
 
@@ -74,6 +177,7 @@ TrackInfo.propTypes = {
     resultCount: PropTypes.number,
     results: PropTypes.array
   }),
+  loading: PropTypes.bool,
   dispatchTrackID: PropTypes.func
 };
 
@@ -82,7 +186,8 @@ TrackInfo.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  trackInfo: selectTrackInfo()
+  trackInfo: selectTrackInfo(),
+  loading: selectLoading()
 });
 
 // eslint-disable-next-line require-jsdoc

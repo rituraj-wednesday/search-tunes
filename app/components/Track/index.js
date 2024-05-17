@@ -170,7 +170,8 @@ Track.defaultProps = {
   track: {
     artworkUrl100: '',
     trackName: ''
-  }
+  },
+  onTrackInfoClick: () => {}
 };
 
 export default memo(Track);

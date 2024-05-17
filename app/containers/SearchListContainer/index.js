@@ -101,7 +101,7 @@ export function SearchListContainer({
   term,
   loading
 }) {
-  const [currentTrackID, setCurrentTrackID] = useState(null);
+  const [currentTrackID, setCurrentTrackID] = useState(audioController.currentlyPlaying);
   const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
