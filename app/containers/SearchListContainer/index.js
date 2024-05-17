@@ -55,8 +55,8 @@ const StyledOutlinedInput = styled(OutlinedInput)`
 const Container = styled.div`
   && {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Each column is a minimum of 60px */
-    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    grid-gap: 0.5rem;
   }
 `;
 
@@ -132,7 +132,7 @@ export function SearchListContainer({
         <Divider sx={{ mb: 1.25 }} light />
         <T marginBottom={10} id="search_song_detail" />
         <StyledOutlinedInput
-          inputProps={{ 'aria-label': translate('searchBar') }}
+          inputProps={{ 'aria-label': translate('search_bar') }}
           onChange={(event) => debouncedHandleOnChange(event.target.value)}
           fullWidth
           defaultValue={term}
@@ -141,7 +141,7 @@ export function SearchListContainer({
             <InputAdornment position="end">
               <IconButton
                 data-testid="search-icon"
-                aria-label={`${translate('searchBar')} ${translate('buttonText')}`}
+                aria-label={`${translate('search_bar')} ${translate('button_text')}`}
                 type="button"
                 onClick={() => searchTunes(term)}
               >

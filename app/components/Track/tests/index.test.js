@@ -46,16 +46,16 @@ describe('<Track />', () => {
 
   it('should call play audio on Play Button click', () => {
     const element = renderWithIntl(<Track track={{ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 }} currentTrackID={2} />);
-    const playButtonEle = element.getAllByLabelText(`${translate('playText')} ${translate('buttonText')}`);
+    const playButtonEle = element.getAllByLabelText(`${translate('play_text')} ${translate('button_text')}`);
     expect(playButtonEle.length).toBe(1);
     fireEvent.click(playButtonEle[0]);
     expect(mockedPlay).toHaveBeenCalledWith({ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 });
-    expect(element.getAllByLabelText(`${translate('playText')} ${translate('buttonText')}`)).toMatchSnapshot();
+    expect(element.getAllByLabelText(`${translate('play_text')} ${translate('button_text')}`)).toMatchSnapshot();
   });
 
-  it('sshould call play audio on Pause Button click', () => {
+  it('should call play audio on Pause Button click', () => {
     const element = renderWithIntl(<Track track={{ trackName: 'hello', artworkUrl100: 'artWork', trackId: 1 }} currentTrackID={1} />);
-    const pauseButtonEle = element.getAllByLabelText(`${translate('pauseText')} ${translate('buttonText')}`);
+    const pauseButtonEle = element.getAllByLabelText(`${translate('pause_text')} ${translate('button_text')}`);
     expect(pauseButtonEle.length).toBe(1);
     fireEvent.click(pauseButtonEle[0]);
     expect(mockedStop).toHaveBeenCalled();

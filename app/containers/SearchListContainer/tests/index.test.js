@@ -39,12 +39,12 @@ describe('<SearchListContainer /> container tests', () => {
         dispatchClearList={mockedDispatchClearList}
       />
     );
-    fireEvent.change(getByLabelText(translate('searchBar')), {
+    fireEvent.change(getByLabelText(translate('search_bar')), {
       target: { value: 'a' }
     });
     await timeout(700);
     expect(mockedDispatchSearchList).toHaveBeenCalled();
-    fireEvent.change(getByLabelText(translate('searchBar')), {
+    fireEvent.change(getByLabelText(translate('search_bar')), {
       target: { value: '' }
     });
     await timeout(700);
@@ -60,10 +60,10 @@ describe('<SearchListContainer /> container tests', () => {
         dispatchClearList={mockedDispatchClearList}
       />
     );
-    fireEvent.change(getByLabelText(translate('searchBar')), {
+    fireEvent.change(getByLabelText(translate('search_bar')), {
       target: { value: 'a' }
     });
-    fireEvent.click(getByLabelText(`${translate('searchBar')} ${translate('buttonText')}`));
+    fireEvent.click(getByLabelText(`${translate('search_bar')} ${translate('button_text')}`));
     expect(mockedDispatchSearchList).toHaveBeenCalled();
   });
 
