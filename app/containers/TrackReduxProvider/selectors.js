@@ -10,8 +10,6 @@ const selectTrackReduxProviderDomain = (state) => state?.trackReduxProvider || i
 
 export const selectTrackReduxProvider = () => createSelector(selectTrackReduxProviderDomain, (substate) => substate);
 
-export const selectSearchListContainer = () => createSelector(selectTrackReduxProviderDomain, (substate) => substate);
-
 export const selectTerm = () => createSelector(selectTrackReduxProviderDomain, (substate) => get(substate, 'term'));
 
 export const selectTrackList = () =>

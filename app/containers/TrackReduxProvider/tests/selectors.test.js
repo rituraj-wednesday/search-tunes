@@ -1,9 +1,10 @@
 import {
-  selectSearchListContainer,
+  selectTrackReduxProvider,
   selectTerm,
   selectLoading,
   selectError,
   selectTrackList,
+  selectTrackInfo,
 } from '../selectors';
 import { initialState } from '../reducer';
 
@@ -14,16 +15,17 @@ describe('SearchListContainer selector tests', () => {
       loading: false,
       error: null,
       trackList: [],
+      trackInfo: {}
     }
   };
 
   it('should select the searchListContainer state', () => {
-    const searchListContainerSelector = selectSearchListContainer();
+    const searchListContainerSelector = selectTrackReduxProvider();
     expect(searchListContainerSelector(mockedState)).toEqual(mockedState.trackReduxProvider);
   });
 
   it('should select the searchListContainer with initialState', () => {
-    const searchListContainerSelector = selectSearchListContainer();
+    const searchListContainerSelector = selectTrackReduxProvider();
     expect(searchListContainerSelector()).toEqual(initialState);
   });
 
@@ -45,5 +47,10 @@ describe('SearchListContainer selector tests', () => {
   it('should select the trackList state', () => {
     const selectTrackListSelector = selectTrackList();
     expect(selectTrackListSelector(mockedState)).toEqual(mockedState.trackReduxProvider.trackList);
+  });
+
+  it('should select the trackList state', () => {
+    const selectTrackListSelector = selectTrackInfo();
+    expect(selectTrackListSelector(mockedState)).toEqual(mockedState.trackReduxProvider.trackInfo);
   });
 });
