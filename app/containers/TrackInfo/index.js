@@ -136,7 +136,7 @@ export function TrackInfo(props) {
   useEffect(() => {
     if (firstRender) {
       audioController.registerAudioChangeHandlers(setCurrentTrackID);
-      setFirstRender(true);
+      setFirstRender(false);
     }
   }, [firstRender]);
 
