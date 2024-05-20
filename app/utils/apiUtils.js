@@ -37,20 +37,20 @@ export const generateApiClient = (type = 'github') => {
   if (type === API_TYPES.GITHUB) {
     // store this value for time to come
     // eslint-disable-next-line immutable/no-mutation
-    apiClients[type] = createApiClientWithTransForm(process.env.GITHUB_URL);
+    apiClients[type] = createApiClientWithTransform(process.env.GITHUB_URL);
     return apiClients[type];
   }
 
   if (type === API_TYPES.ITUNES) {
     // store this value for time to come
     // eslint-disable-next-line immutable/no-mutation
-    apiClients[type] = createApiClientWithTransForm(process.env.ITUNES_URL);
+    apiClients[type] = createApiClientWithTransform(process.env.ITUNES_URL);
     return apiClients[type];
   }
 
   // store this value for time to come
   // eslint-disable-next-line immutable/no-mutation
-  apiClients.default = createApiClientWithTransForm(process.env.GITHUB_URL);
+  apiClients.default = createApiClientWithTransform(process.env.GITHUB_URL);
   return apiClients[API_TYPES.DEFAULT];
 };
 
@@ -64,7 +64,7 @@ export const generateApiClient = (type = 'github') => {
  * @param {string} baseURL - The base URL for the API client.
  * @returns {Object} The API client with added transformations.
  */
-export const createApiClientWithTransForm = (baseURL) => {
+export const createApiClientWithTransform = (baseURL) => {
   const api = create({
     baseURL,
     headers: { 'Content-Type': 'application/json' }

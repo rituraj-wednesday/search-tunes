@@ -3,7 +3,7 @@ name: React Template CD
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   deploy:
