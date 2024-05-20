@@ -110,7 +110,7 @@ exports[`<TrackInfo /> container tests should render when trackInfo is loaded an
             <span
               class="css-f3vz0n ercpcbo0"
             >
-              Release Data: 
+              Release Date: 
             </span>
             Tue May 09 2006
           </div>
