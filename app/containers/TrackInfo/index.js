@@ -113,7 +113,7 @@ const LoadingIcon = () => (
  * @returns {JSX.Element} The SearchList TrackInfo container.
  */
 export function TrackInfo(props) {
-  const { match, dispatchTrackID, trackInfo, loading: InfoLoading } = props;
+  const { match, dispatchTrackID, trackInfo, loading: isInfoLoading } = props;
   const {
     params: { trackId }
   } = match;
@@ -128,10 +128,10 @@ export function TrackInfo(props) {
   }
 
   useEffect(() => {
-    if (!InfoLoading && !checkTrackID(trackData.trackId)) {
+    if (!isInfoLoading && !checkTrackID(trackData.trackId)) {
       dispatchTrackID(trackId);
     }
-  }, [trackData, InfoLoading]);
+  }, [trackData, isInfoLoading]);
 
   useEffect(() => {
     if (firstRender) {
@@ -154,7 +154,7 @@ export function TrackInfo(props) {
 
   return (
     <If
-      condition={!InfoLoading}
+      condition={!isInfoLoading}
       otherwise={
         <LoadingCard>
           <Loading height="100px" width="100px" />
