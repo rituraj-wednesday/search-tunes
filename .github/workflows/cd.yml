@@ -32,7 +32,7 @@ jobs:
 
       - name: Set env.ENV_NAME
         run: |
-          if [[ ${{steps.vars.outputs.short_ref}} == 'master' ]]; then
+          if [[ ${{steps.vars.outputs.short_ref}} == 'development' ]]; then
               echo "ENV_NAME=prod" >> "$GITHUB_ENV"
           else
               echo "ENV_NAME=dev" >> "$GITHUB_ENV"
