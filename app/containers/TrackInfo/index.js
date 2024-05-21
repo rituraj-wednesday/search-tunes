@@ -189,43 +189,43 @@ export function TrackInfo(props) {
           </TrackContainer>
           <div>
             <div>
-              <LabelWrapper>Song Name: </LabelWrapper>
+              <LabelWrapper>{`${translate('song_name')}: `}</LabelWrapper>
               {trackData.trackName}
               <If condition={trackData?.contentAdvisoryRating === 'Explicit'}>
-                <EWrapper>E</EWrapper>
+                <EWrapper>{translate('explicit')}</EWrapper>
               </If>
             </div>
             <div>
-              <LabelWrapper>Artist Name: </LabelWrapper>
+              <LabelWrapper>{`${translate('artist_name')}: `}</LabelWrapper>
               {trackData.artistName}
             </div>
             <div>
-              <LabelWrapper>Genre: </LabelWrapper>
+              <LabelWrapper>{`${translate('genre')}: `}</LabelWrapper>
               {trackData.primaryGenreName}
             </div>
             <div>
-              <LabelWrapper>Country: </LabelWrapper>
+              <LabelWrapper>{`${translate('country')}: `}</LabelWrapper>
               {trackData.country}
             </div>
             <div>
-              <LabelWrapper>Price: </LabelWrapper>
+              <LabelWrapper>{`${translate('price')}: `}</LabelWrapper>
               {trackData.trackPrice}
               <LabelWrapper> {trackData.currency}</LabelWrapper>
             </div>
             <div>
-              <LabelWrapper>Album Name: </LabelWrapper>
+              <LabelWrapper>{`${translate('album_name')}: `}</LabelWrapper>
               {trackData.collectionName}
               <If condition={trackData.collectionExplicitness === 'explicit'}>
-                <EWrapper>E</EWrapper>
+                <EWrapper>{translate('explicit')}</EWrapper>
               </If>
             </div>
             <div>
-              <LabelWrapper>Album Price: </LabelWrapper>
+              <LabelWrapper>{`${translate('album_price')}: `}</LabelWrapper>
               {trackData.collectionPrice}
               <LabelWrapper> {trackData.currency}</LabelWrapper>
             </div>
             <div>
-              <LabelWrapper>Release Data: </LabelWrapper>
+              <LabelWrapper>{`${translate('release_date')}: `}</LabelWrapper>
               {new Date(trackData.releaseDate).toDateString()}
             </div>
             <ButtonContainer>
