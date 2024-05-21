@@ -22,5 +22,14 @@
   "play_text": "Play",
   "pause_text": "Pause",
   "button_text": "Button",
-  "search_bar": "Search Bar"
+  "search_bar": "Search Bar",
+  "song_name": "Song Name",
+  "artist_name": "Artist Name",
+  "genre": "Genre",
+  "country": "Country",
+  "price": "Price",
+  "album_name": "Album Name",
+  "album_price": "Album Price",
+  "release_date": "Release Date",
+  "explicit": "E"
 }

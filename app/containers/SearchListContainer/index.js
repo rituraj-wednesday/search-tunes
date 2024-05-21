@@ -15,10 +15,10 @@ import T from '@components/T';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { injectSaga } from 'redux-injectors';
-import saga from './saga';
+import { searchListContainerSaga } from '../TrackReduxProvider/saga';
 import { translate } from '@app/utils';
-import { selectError, selectLoading, selectTerm, selectTrackList } from './selectors';
-import { searchListContainerCreators } from './reducer';
+import { selectError, selectLoading, selectTerm, selectTrackList } from '../TrackReduxProvider/selectors';
+import { trackReduxCreators } from '../TrackReduxProvider/reducer';
 import { If } from '@app/components/If';
 import { For } from '@app/components/For/index';
 import { Track } from '@app/components/Track/index';
@@ -60,16 +60,20 @@ const Container = styled.div`
   }
 `;
 
-const renderTrackList = (trackList, loading, currentTrackID) => {
+const renderTrackList = ({ trackList, currentTrackID, setTrackInfoFromState }) => {
   const resultCount = get(trackList, 'resultCount', 0);
   const results = get(trackList, 'results', []);
   return (
-    <If condition={resultCount && !loading}>
+    <If condition={resultCount}>
       <CustomCard>
         <For
           of={results}
           ParentComponent={Container}
-          renderItem={(track) => <Track track={track} currentTrackID={currentTrackID} />}
+          renderItem={(track) => (
+            <If condition={track.trackId}>
+              <Track track={track} currentTrackID={currentTrackID} onTrackInfoClick={setTrackInfoFromState} />
+            </If>
+          )}
         />
       </CustomCard>
     </If>
@@ -88,8 +92,16 @@ const renderTrackList = (trackList, loading, currentTrackID) => {
  * @param {Function} props.dispatchClearList - Dispatch Action for Search Term cleared.
  * @returns {JSX.Element} The SearchList component.
  */
-export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClearList, trackList, term, loading }) {
-  const [currentTrackID, setCurrentTrackID] = useState(null);
+export function SearchListContainer({
+  maxwidth,
+  dispatchSearchList,
+  dispatchClearList,
+  setTrackInfoFromState,
+  trackList,
+  term,
+  loading
+}) {
+  const [currentTrackID, setCurrentTrackID] = useState(audioController.currentlyPlaying);
   const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
@@ -147,7 +159,7 @@ export function SearchListContainer({ maxwidth, dispatchSearchList, dispatchClea
           </LoadingCard>
         }
       >
-        {renderTrackList(trackList, false, currentTrackID)}
+        {renderTrackList({ trackList, currentTrackID, setTrackInfoFromState })}
       </If>
     </div>
   );
@@ -158,6 +170,7 @@ SearchListContainer.propTypes = {
   maxwidth: PropTypes.number,
   dispatchSearchList: PropTypes.func,
   dispatchClearList: PropTypes.func,
+  setTrackInfoFromState: PropTypes.func,
   trackList: PropTypes.shape({
     resultCount: PropTypes.number,
     results: PropTypes.array
@@ -180,15 +193,20 @@ const mapStateToProps = createStructuredSelector({
 
 // eslint-disable-next-line require-jsdoc
 export function mapDispatchToProps(dispatch) {
-  const { requestGetSearchedTunes, clearSearchList } = searchListContainerCreators;
+  const { requestGetSearchedTunes, clearSearchList, setTrackInfoFromState } = trackReduxCreators;
   return {
     dispatchSearchList: (term) => dispatch(requestGetSearchedTunes(term)),
-    dispatchClearList: () => dispatch(clearSearchList())
+    dispatchClearList: () => dispatch(clearSearchList()),
+    setTrackInfoFromState: (track) => dispatch(setTrackInfoFromState(track))
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo, injectSaga({ key: 'searchListContainer', saga }))(SearchListContainer);
+export default compose(
+  withConnect,
+  memo,
+  injectSaga({ key: 'trackReduxProvider', saga: searchListContainerSaga })
+)(SearchListContainer);
 
 export const SearchListContainerTest = compose(withConnect)(SearchListContainer);

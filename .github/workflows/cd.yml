@@ -3,7 +3,7 @@ name: React Template CD
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   deploy:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Set env.ENV_NAME
         run: |
-          if [[ ${{steps.vars.outputs.short_ref}} == 'master' ]]; then
+          if [[ ${{steps.vars.outputs.short_ref}} == 'development' ]]; then
               echo "ENV_NAME=prod" >> "$GITHUB_ENV"
           else
               echo "ENV_NAME=dev" >> "$GITHUB_ENV"
@@ -52,7 +52,7 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --exclude 'tests/*'
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}-${{ env.ENV_NAME }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           SOURCE_DIR: './build/'
 
       - name: Invalidate CloudFront
@@ -80,8 +80,8 @@ jobs:
           branch: ${{ steps.vars.outputs.short_ref }}
           unprotect_reviews: true
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # - name: SonarQube Scan
+      #   uses: sonarsource/sonarqube-scan-action@master
+      #   env:
+      #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
