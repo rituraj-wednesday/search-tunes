@@ -148,7 +148,7 @@ export function TrackInfo(props) {
     }
   };
 
-  const onDetialIconClick = (url) => {
+  const onDetailIconClick = (url) => {
     window.open(url, '_blank');
   };
 
@@ -229,13 +229,13 @@ export function TrackInfo(props) {
               {new Date(trackData.releaseDate).toDateString()}
             </div>
             <ButtonContainer>
-              <IconButton onClick={() => onDetialIconClick(trackData.trackViewUrl)}>
+              <IconButton onClick={() => onDetailIconClick(trackData.trackViewUrl)}>
                 <MusicNoteIcon />
               </IconButton>
-              <IconButton onClick={() => onDetialIconClick(trackData.collectionViewUrl)}>
+              <IconButton onClick={() => onDetailIconClick(trackData.collectionViewUrl)}>
                 <AlbumIcon />
               </IconButton>
-              <IconButton onClick={() => onDetialIconClick(trackData.artistViewUrl)}>
+              <IconButton onClick={() => onDetailIconClick(trackData.artistViewUrl)}>
                 <MicExternalOnIcon />
               </IconButton>
             </ButtonContainer>
