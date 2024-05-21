@@ -10,13 +10,13 @@ const { successGetSearchedTunes, failureGetSearchedTunes, successGetTrackInfo, f
   trackReduxCreators;
 
 /**
- * A saga that handles fetching GitHub repositories based on a given repository name.
+ * A saga that handles fetching iTunes search based on a given search term.
  * On success, it dispatches a success action with the fetched data.
  * On failure, it dispatches a failure action with the error data.
  *
  * @date 01/03/2024 - 14:47:28
  *
- * @param {Object} action - The action object containing the repository name.
+ * @param {Object} action - The action object containing the search term.
  * @yields {Effect} The effect of calling the API, and then either the success or failure action.
  */
 export function* getSearchedTuneList(action) {
@@ -43,13 +43,13 @@ const checkIfTrackInfoExist = (trackInfo, trackId) =>
   trackInfo && (trackInfo.results || []).length >= 1 && trackInfo.results[0].trackId === +trackId;
 
 /**
- * A saga that handles fetching GitHub repositories based on a given repository name.
+ * A saga that handles fetching Track Details according to trackId provided.
  * On success, it dispatches a success action with the fetched data.
  * On failure, it dispatches a failure action with the error data.
  *
  * @date 01/03/2024 - 14:47:28
  *
- * @param {Object} action - The action object containing the repository name.
+ * @param {Object} action - The action object containing the trackID.
  * @yields {Effect} The effect of calling the API, and then either the success or failure action.
  */
 export function* getTrackInfo(action) {
