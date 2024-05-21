@@ -128,10 +128,10 @@ export function TrackInfo(props) {
   }
 
   useEffect(() => {
-    if (!checkTrackID(trackData.trackId)) {
+    if (!InfoLoading && !checkTrackID(trackData.trackId)) {
       dispatchTrackID(trackId);
     }
-  }, [trackData]);
+  }, [trackData, InfoLoading]);
 
   useEffect(() => {
     if (firstRender) {
